@@ -1,0 +1,23 @@
+{
+  "name": "nuxanger-server",
+  "version": "1.0.0",
+  "description": "my cool nuxanger server",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node -r .",
+    "dev": "nodemon -r esm"
+  },
+  "author": "hasansujon786@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^16.1.5",
+    "apollo-server-express": "^2.9.4",
+    "bcryptjs": "^2.4.3",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "graphql": "^14.5.8",
+    "joi": "^14.3.0",
+    "mongoose": "^5.7.3"
+  }
+}
