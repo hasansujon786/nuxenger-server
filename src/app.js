@@ -29,7 +29,7 @@ const IN_PROD = NODE_ENV === 'production'
 
     app.disable('x-powered-by')
 
-    // Redis
+    // RedisStore
     const RedisStore = connectRedis(session)
     const client = redis.createClient({
       host: REDIST_HOST,
@@ -37,6 +37,7 @@ const IN_PROD = NODE_ENV === 'production'
       password: REDIST_PASSWORD
     })
 
+    // Session Configs
     app.use(
       session({
         store: new RedisStore({ client }),
@@ -45,7 +46,7 @@ const IN_PROD = NODE_ENV === 'production'
         resave: false,
         saveUninitialized: false,
         cookie: {
-          maxAge: SESS_LIFETIME,
+          maxAge: parseInt(SESS_LIFETIME),
           sameSite: true,
           secure: IN_PROD
         }
@@ -61,13 +62,15 @@ const IN_PROD = NODE_ENV === 'production'
       res.send(req.session.name)
     })
 
+    // ApolloServer Configs
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      playground: true
+      playground: !IN_PROD,
+      context: ({ req, res }) => ({ req, res })
     })
 
-    server.applyMiddleware({ app })
+    server.applyMiddleware({ app, cors: false })
 
     app.listen({ port: APP_PORT }, () =>
       console.log(`Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)

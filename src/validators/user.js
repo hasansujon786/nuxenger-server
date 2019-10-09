@@ -31,14 +31,14 @@ const password = Joi.string()
 //   return err
 // })
 
-export const signUp = Joi.object({
+export const signUpValidator = Joi.object({
   email,
   username,
   name,
-  password,
+  password
 })
 
-export const signIn = Joi.object({
+export const signInValidator = Joi.object({
   email,
-  password,
+  password
 })
