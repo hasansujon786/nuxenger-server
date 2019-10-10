@@ -4,13 +4,13 @@ import { SESS_NAME } from './config'
 
 const signIn = req => req.session.userId
 
-export const checkSignIn = req => {
+export const ensureSignIn = req => {
   if (!signIn(req)) {
     throw new AuthenticationError('You must be signed in.')
   }
 }
 
-export const checkSignOut = req => {
+export const ensureSignOut = req => {
   if (signIn(req)) {
     throw new AuthenticationError('You already signed in.')
   }
@@ -19,11 +19,13 @@ export const checkSignOut = req => {
 export const attemptToSignIn = async (email, password) => {
   const message = 'Incorrect Email or Password. Please try again'
 
+  // Find user by email
   const user = await User.findOne({ email })
   if (!user) {
     throw new AuthenticationError(message)
   }
 
+  // Checks given password is matched
   const isPasswaodMatches = await user.matchesPassword(password)
   if (!isPasswaodMatches) {
     throw new AuthenticationError(message)
@@ -34,12 +36,15 @@ export const attemptToSignIn = async (email, password) => {
 
 export const attemptToSignOut = (req, res) =>
   new Promise((resolve, reject) => {
-    // clear cookie from req
+    // Clear cookie from req
     req.session.destroy(err => {
+      // Retur if any err
       if (err) reject(err)
-      // also clear cookie from sending to user
+
+      // Also clear cookie from sending to user
       res.clearCookie(SESS_NAME)
 
+      // if everything ok return true
       resolve(true)
     })
   })

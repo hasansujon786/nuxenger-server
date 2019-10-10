@@ -1,12 +1,15 @@
 import { ApolloServer, gql } from 'apollo-server-express'
+import connectRedis from 'connect-redis'
+import session from 'express-session'
 import mongoose from 'mongoose'
 import express from 'express'
-import session from 'express-session'
-import connectRedis from 'connect-redis'
 import redis from 'redis'
 
+// GraphQL modules
 import typeDefs from './typeDefs'
 import resolvers from './resolvers'
+import schemaDirectives from './directives'
+
 import {
   APP_PORT,
   MONGO_URI,
@@ -18,7 +21,6 @@ import {
   REDIST_PORT,
   REDIST_PASSWORD
 } from './config'
-
 const IN_PROD = NODE_ENV === 'production'
 
 // main app
@@ -43,7 +45,8 @@ const IN_PROD = NODE_ENV === 'production'
         store: new RedisStore({ client }),
         name: SESS_NAME,
         secret: SESS_SECRET,
-        resave: false,
+        resave: true,
+        rolling: true,
         saveUninitialized: false,
         cookie: {
           maxAge: parseInt(SESS_LIFETIME),
@@ -67,6 +70,7 @@ const IN_PROD = NODE_ENV === 'production'
       typeDefs,
       resolvers,
       playground: !IN_PROD,
+      schemaDirectives,
       context: ({ req, res }) => ({ req, res })
     })
 
