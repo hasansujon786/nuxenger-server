@@ -34,7 +34,7 @@ export default {
   Mutation: {
     async signUp(parent, args, { req }, info) {
       // Validate user inputs
-      const { error, value } = await signUpValidator.validate(args, { abortEarly: false })
+      const { error, value } = signUpValidator.validate(args, { abortEarly: false })
       if (error) {
         const err = new ValidationError('Signup validation failed.')
         err.joi = error
@@ -46,7 +46,7 @@ export default {
     },
     async signIn(parent, args, { req }, info) {
       // Validate user inputs
-      const { error, value } = await signInValidator.validate(args, { abortEarly: false })
+      const { error, value } = signInValidator.validate(args, { abortEarly: false })
       if (error) {
         const err = new ValidationError('SignIn validation failed.')
         err.joi = error
@@ -64,6 +64,11 @@ export default {
     async signOut(parent, args, { req, res }, info) {
       // Return true/false
       return await attemptToSignOut(req, res)
+    }
+  },
+  User: {
+    async chats(user, args, ctx, info) {
+      return (await user.populate('chats').execPopulate()).chats
     }
   }
 }

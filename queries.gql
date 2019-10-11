@@ -1,10 +1,5 @@
 mutation {
-  signUp(
-    email: "motaleb@gmail.com",
-    username: "motaleb",
-    name: "motaleb",
-    password: "Test123123"
-  ) {
+  signUp(email: "motaleb@gmail.com", username: "motaleb", name: "motaleb", password: "Test123123") {
     id
     email
   }
@@ -15,5 +10,24 @@ mutation {
     id
     name
     username
+  }
+}
+
+query {
+  me {
+    id
+    name
+    email
+    createdAt
+    updatedAt
+  }
+}
+
+# Chat
+mutation {
+  startChat(userIds: ["5d9f6d716ce04105d81c11f2"]) {
+    lastMessage {
+      body
+    }
   }
 }
