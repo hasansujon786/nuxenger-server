@@ -4,7 +4,11 @@ import { startChatValidator } from '../validators'
 import { User, Chat, Message } from '../models'
 
 export default {
-  Query: {},
+  Query: {
+    async chat(parent, { chatId }, ctx, info) {
+      return await Chat.findById(chatId)
+    }
+  },
   Mutation: {
     async startChat(parent, args, { req }, info) {
       const { userId } = req.session
@@ -18,7 +22,7 @@ export default {
         throw err
       }
 
-      // Checks all given ids exits in DB
+      // Checks all given User ids exits in DB
       const idsFound = await User.where('_id')
         .in(userIds)
         .countDocuments()
