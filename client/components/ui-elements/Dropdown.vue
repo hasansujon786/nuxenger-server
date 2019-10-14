@@ -1,0 +1,69 @@
+<template functional>
+  <div
+    class="dropdown bg-white shadow-md rounded absolute text-sm"
+    :class="props.classNames"
+    :style="props.styleProps"
+  >
+    <div class="dropdown__tail absolute"></div>
+    <ul class="dropdown__list-wrapper pb-2 border-b" v-for="(drop, dI) in props.dropdown" :key="dI">
+      <li class="border-b py-1 px-4">{{ drop.title }}</li>
+      <li
+        class="dropdown__list-items"
+        v-for="(option, i) in drop.options"
+        @click="listeners['option-click'](option)"
+        :key="i"
+      >
+        {{ option }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    styleProps: String,
+    classNames: String,
+    dropdown: Array
+  }
+  // test(m) {
+  //   console.log(m)
+  //   //  $options.test(props.dropdown)
+  // }
+}
+</script>
+
+<style lang="scss" scoped>
+.dropdown {
+  min-width: 9rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+
+  &__tail {
+    /* clip-path: polygon(50% 0%, 0% 100%, 100% 100%); */
+    left: 16px;
+    top: -7px;
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yR/r/IC0Q1OuVif1.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: -76px -1082px;
+    height: 8px;
+    width: 16px;
+  }
+
+  &__list-wrapper {
+    &:last-child {
+      border-bottom-width: 0;
+    }
+  }
+
+  &__list-items {
+    padding: 3px 1rem;
+    cursor: pointer;
+    &:hover {
+      color: white;
+      background-color: var(--primary);
+    }
+  }
+}
+</style>
