@@ -4,6 +4,7 @@ import session from 'express-session'
 import mongoose from 'mongoose'
 import express from 'express'
 import redis from 'redis'
+import cors from 'cors'
 
 // GraphQL modules
 import typeDefs from './typeDefs'
@@ -29,7 +30,13 @@ const IN_PROD = NODE_ENV === 'production'
     await mongoose.connect(MONGO_URI, { useNewUrlParser: true })
     const app = express()
 
+    // Headers & CORS Config
     app.disable('x-powered-by')
+    var corsOptions = {
+      origin: 'http://localhost:3000',
+      credentials: true // <-- REQUIRED backend setting
+    }
+    app.use(cors(corsOptions))
 
     // RedisStore
     const RedisStore = connectRedis(session)
@@ -56,15 +63,6 @@ const IN_PROD = NODE_ENV === 'production'
       })
     )
 
-    app.get('/set', (req, res) => {
-      req.session.name = 'kussus'
-      res.send('setting')
-    })
-    app.get('/get', (req, res) => {
-      console.log('getting', req.session.name)
-      res.send(req.session.name)
-    })
-
     // ApolloServer Configs
     const server = new ApolloServer({
       typeDefs,
@@ -74,7 +72,12 @@ const IN_PROD = NODE_ENV === 'production'
       context: ({ req, res }) => ({ req, res })
     })
 
-    server.applyMiddleware({ app, cors: false })
+    // server.applyMiddleware({ app })
+    server.applyMiddleware({
+      app,
+      // path: '/',
+      cors: false // disables the apollo-server-express cors to allow the cors middleware use
+    })
 
     app.listen({ port: APP_PORT }, () =>
       console.log(`Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)

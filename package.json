@@ -14,6 +14,7 @@
     "apollo-server-express": "^2.9.4",
     "bcryptjs": "^2.4.3",
     "connect-redis": "^4.0.3",
+    "cookie-parser": "^1.4.4",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-session": "^1.16.2",

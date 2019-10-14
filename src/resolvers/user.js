@@ -44,7 +44,15 @@ export default {
       // Create & save user to database
       return await User.create(args)
     },
-    async signIn(parent, args, { req }, info) {
+    async signIn(parent, args, { req, res }, info) {
+      // res.cookie('token', 'hudaibujlamama', {
+      //   httpOnly: true,
+      //   secure: false,
+      //   maxAge: 1000 * 60 * 60 * 24 * 31
+      // })
+      // console.log('res from sign in', res)
+
+      // console.log('res from sign in')
       // Validate user inputs
       const { error, value } = signInValidator.validate(args, { abortEarly: false })
       if (error) {
