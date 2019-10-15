@@ -41,6 +41,10 @@ export default {
       }
     }
   },
+  mounted() {
+    // const token = this.$apolloHelpers.getToken()
+    // console.log(token)
+  },
   methods: {
     handleSubmit() {
       const { email, password } = this.signin
@@ -49,7 +53,7 @@ export default {
     },
     async signIn(userEmail, userPassword) {
       // Call to the graphql mutation
-      const result = await this.$apollo.mutate({
+      const res = await this.$apollo.mutate({
         // Query
         mutation: gql`
           mutation($email: String!, $password: String!) {
@@ -67,7 +71,8 @@ export default {
         }
       })
 
-      console.log(result)
+      this.$store.dispatch('auth/setAuthUser', res.data.signIn)
+      this.$router.push('/chats')
     }
   },
   components: {

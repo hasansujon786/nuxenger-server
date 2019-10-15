@@ -13,6 +13,9 @@ export const mutations = {
 }
 // actions ==============================
 export const actions = {
+  nuxtServerInit({ dispatch }) {
+    console.log('from nuxt serverInit')
+  },
   setTheme({ commit }, theme) {
     commit('_setTheme', theme)
   },

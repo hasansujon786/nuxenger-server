@@ -11,7 +11,8 @@ import ChatBoxHeadVue from '@/components/chat/ChatBoxHead.vue'
 import ChatBoxVue from '@/components/chat/ChatBox.vue'
 import ChatBoxInputVue from '@/components/chat/ChatBoxInput.vue'
 export default {
-  layout: 'message',
+  middleware: 'auth',
+  // layout: 'message',
   data() {
     return {
       userId: null,
@@ -36,6 +37,7 @@ export default {
     chatBoxHead: ChatBoxHeadVue,
     chatBox: ChatBoxVue,
     chatBoxInput: ChatBoxInputVue
+    // message:
   }
 }
 </script>

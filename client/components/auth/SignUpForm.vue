@@ -49,33 +49,7 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      // const { email, password } = this.signin
-      // if (!email && !password) return
-      const graphqlQuery = {
-        query: `
-        query {
-          me {
-            id
-            name
-          }
-        }
-      `
-      }
-      fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(graphqlQuery)
-      })
-        .then(res => {
-          return res.json()
-        })
-        .then(data => {
-          console.log(data)
-        })
-    }
+    handleSubmit() {}
   },
   components: {
     uiInput: InputVue,

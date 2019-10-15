@@ -58,7 +58,8 @@ const IN_PROD = NODE_ENV === 'production'
         cookie: {
           maxAge: parseInt(SESS_LIFETIME),
           sameSite: true,
-          secure: IN_PROD
+          secure: IN_PROD,
+          httpOnly: false
         }
       })
     )

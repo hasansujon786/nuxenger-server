@@ -1,14 +1,20 @@
 <template>
   <div class="flex-center flex-col min-h-screen">
-    <h1 class="text-4xl">{{ hello }}</h1>
-    <sign-in-form @change-view="showSignIn = !showSignIn" v-if="showSignIn"></sign-in-form>
-    <sign-up-form @change-view="showSignIn = !showSignIn" v-else></sign-up-form>
-
-    <!-- links -->
-    <div class="mt-20">
-      <button @click="signOut">Sign out</button>
-      <nuxt-link class="text-green-600 hover:underline m-3" to="/random">Style guide</nuxt-link>
-      <nuxt-link class="text-green-600 hover:underline m-3" to="/m/343">Open app</nuxt-link>
+    <h1 class="text-6xl">nuxernger</h1>
+    <div v-if="authUser">
+      <h1 class="text-3xl">{{ authUser.name }}</h1>
+    </div>
+    <div>
+      <h1 class="text-3xl">{{ hello }}</h1>
+    </div>
+    <div>
+      <nuxt-link class="text-green-600 hover:underline m-3" to="/secret">Secret page</nuxt-link>
+    </div>
+    <div v-if="authUser">
+      <button @click="signOut" class="text-green-600 hover:underline m-3">Sign out</button>
+    </div>
+    <div v-else>
+      <nuxt-link class="text-green-600 hover:underline m-3" to="/login">Sign in</nuxt-link>
     </div>
   </div>
 </template>
@@ -21,19 +27,24 @@ import gql from 'graphql-tag'
 
 export default {
   name: 'index-page',
+  mounted() {
+    console.log('index page mounted')
+  },
   data() {
-    return {
-      showSignIn: true
+    return {}
+  },
+  computed: {
+    authUser() {
+      return this.$store.getters['auth/authUser']
     }
   },
   apollo: {
     hello: gql`
-      query {
+      {
         hello
       }
     `
   },
-  mounted() {},
   methods: {
     async signOut() {
       const result = await this.$apollo.mutate({
@@ -44,13 +55,9 @@ export default {
           }
         `
       })
-
-      console.log(result)
+      this.$store.dispatch('auth/setAuthUser', null)
+      this.$router.push('/login')
     }
-  },
-  components: {
-    signInForm: SignInFormVue,
-    signUpForm: SignUpFormVue
   }
 }
 </script>

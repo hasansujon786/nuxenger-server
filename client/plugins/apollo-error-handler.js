@@ -1,6 +1,8 @@
 export default (error, context) => {
-  console.log(error)
-  console.log(context)
+  // console.log(error)
 
+  console.info('redirec from apoll errror handaler')
+  context.redirect('/login')
+  // console.log(context)
   // context.error({ statusCode: 304, message: 'Apollo Server error' })
 }

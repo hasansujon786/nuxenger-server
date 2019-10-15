@@ -9,8 +9,10 @@ export default {
   Query: {
     async me(parent, args, { req }, info) {
       // TODO : projection, sanitization
-
-      return await User.findById(req.session.userId)
+      if(req.session.userId) {
+        return await User.findById(req.session.userId)
+      }
+      return null
     },
     async users(parent, args, { req }, info) {
       // TODO : projection, pagination, sanitization

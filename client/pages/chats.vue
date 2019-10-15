@@ -15,9 +15,10 @@
 </template>
 
 <script>
-import SideBarVue from '../components/side-bar/SideBar.vue'
-import IconBtnVue from '../components/ui-elements/IconBtn.vue'
+import SideBarVue from '@/components/side-bar/SideBar.vue'
+import IconBtnVue from '@/components/ui-elements/IconBtn.vue'
 export default {
+  middleware: 'auth',
   components: {
     sideBar: SideBarVue,
     iconBtn: IconBtnVue
@@ -40,7 +41,8 @@ export default {
     }
 
     window.addEventListener('keydown', handleFirstTab)
-  }
+  },
+  methods: {}
 }
 </script>
 

@@ -1,5 +1,5 @@
 export default {
-  tokenName: 'yourApolloTokenName', // optional, default: apollo-token
+  tokenName: 'sid', // optional, default: apollo-token
   cookieAttributes: {
     /**
      * Define when the cookie will be removed. Value can be a Number
