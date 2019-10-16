@@ -1,4 +1,6 @@
+import { API_ENDPOINT } from '../config'
 export default {
+  // Session Cookie name
   tokenName: 'sid', // optional, default: apollo-token
   cookieAttributes: {
     /**
@@ -41,7 +43,7 @@ export default {
   clientConfigs: {
     default: {
       // required
-      httpEndpoint: 'http://localhost:4000/graphql',
+      httpEndpoint: API_ENDPOINT,
       // optional
       // See https://www.apollographql.com/docs/link/links/http.html#options
       httpLinkOptions: {

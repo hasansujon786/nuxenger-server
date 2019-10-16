@@ -22,7 +22,6 @@
 <script>
 import SignInFormVue from '@/components/auth/SignInForm.vue'
 import SignUpFormVue from '@/components/auth/SignUpForm.vue'
-import { API_ENDPOINT } from '@/config'
 import gql from 'graphql-tag'
 import { mapActions } from 'vuex'
 
