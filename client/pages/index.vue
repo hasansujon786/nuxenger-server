@@ -24,6 +24,7 @@ import SignInFormVue from '@/components/auth/SignInForm.vue'
 import SignUpFormVue from '@/components/auth/SignUpForm.vue'
 import { API_ENDPOINT } from '@/config'
 import gql from 'graphql-tag'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'index-page',
@@ -46,18 +47,7 @@ export default {
     `
   },
   methods: {
-    async signOut() {
-      const result = await this.$apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation {
-            signOut
-          }
-        `
-      })
-      this.$store.dispatch('auth/setAuthUser', null)
-      this.$router.push('/login')
-    }
+    ...mapActions({ signOut: 'auth/signOut' })
   }
 }
 </script>

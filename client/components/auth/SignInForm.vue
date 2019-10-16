@@ -21,8 +21,14 @@
       <ui-button classNames="w-full mt-4">Sign in</ui-button>
       <p class="mt-6 text-sm text-gray-600">
         Don't have any account?
-        <a @click="$emit('change-view')" class="text-primary cursor-pointer font-bold">Sign Up</a>
+        <a href="#" @click.prevent="$emit('change-view')" class="text-primary font-bold">Sign Up</a>
       </p>
+      <a
+        href="#"
+        class="text-primary mt-8 font-bold"
+        @click.prevent="$store.dispatch('auth/signOut')"
+        >Sing out</a
+      >
     </div>
   </form>
 </template>
@@ -49,30 +55,7 @@ export default {
     handleSubmit() {
       const { email, password } = this.signin
       if (!email && !password) return
-      this.signIn(email, password)
-    },
-    async signIn(userEmail, userPassword) {
-      // Call to the graphql mutation
-      const res = await this.$apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation($email: String!, $password: String!) {
-            signIn(email: $email, password: $password) {
-              id
-              name
-              username
-            }
-          }
-        `,
-        // Parameters
-        variables: {
-          email: userEmail,
-          password: userPassword
-        }
-      })
-
-      this.$store.dispatch('auth/setAuthUser', res.data.signIn)
-      this.$router.push('/chats')
+      this.$store.dispatch('auth/signIn', { email, password })
     }
   },
   components: {

@@ -27,18 +27,6 @@ export default {
     this.getAuthUser()
   },
   methods: {
-    async signOut() {
-      const result = await this.$apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation {
-            signOut
-          }
-        `
-      })
-      this.$store.dispatch('auth/setAuthUser', null)
-      this.$router.push('/login')
-    },
     async getAuthUser() {
       try {
         console.time('gerAuthUser')

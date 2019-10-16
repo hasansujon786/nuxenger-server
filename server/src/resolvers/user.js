@@ -73,6 +73,7 @@ export default {
     },
     async signOut(parent, args, { req, res }, info) {
       // Return true/false
+      // if everything ok return true
       return await attemptToSignOut(req, res)
     }
   },
