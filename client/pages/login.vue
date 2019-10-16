@@ -13,7 +13,7 @@ import SignUpFormVue from '@/components/auth/SignUpForm.vue'
 export default {
   name: 'login',
   // layout: 'auth',
-  middleware: 'guest',
+  // middleware: 'guest',
   data() {
     return {
       showSignIn: true

@@ -45,13 +45,11 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('keyup', e => {
+    function focusOnInput(e) {
       if (e.key !== '/') return
       this.$refs.msgInput.focus()
-      window.removeEventListener('keyup', () => {
-        console.log('removed')
-      })
-    })
+    }
+    window.addEventListener('keyup', focusOnInput)
   }
 }
 </script>
