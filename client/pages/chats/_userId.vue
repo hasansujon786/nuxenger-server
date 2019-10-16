@@ -11,8 +11,7 @@ import ChatBoxHeadVue from '@/components/chat/ChatBoxHead.vue'
 import ChatBoxVue from '@/components/chat/ChatBox.vue'
 import ChatBoxInputVue from '@/components/chat/ChatBoxInput.vue'
 export default {
-  middleware: 'auth',
-  // layout: 'message',
+  middleware: 'authenticated',
   data() {
     return {
       userId: null,

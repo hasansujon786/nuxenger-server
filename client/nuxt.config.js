@@ -40,11 +40,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    // '@nuxtjs/auth',
-    '@nuxtjs/apollo'
-  ],
+  modules: ['@nuxtjs/apollo'],
   // Give apollo module options
   apollo: apolloConfig,
 

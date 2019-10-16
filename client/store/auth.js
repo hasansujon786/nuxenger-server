@@ -5,7 +5,6 @@ export const state = () => ({
   error: false,
   authUser: null,
   authPagOnfirstLoad: false,
-  redirectFnc: null
 })
 
 // mutations ==============================
@@ -16,20 +15,34 @@ export const mutations = {
   _setLoading(state, bool) {
     state.loading = bool
   },
-  _authPagOnfirstLoad(state, { bool, redirect }) {
+  _authPagOnfirstLoad(state, bool) {
     state.authPagOnfirstLoad = bool
-    state.redirectFnc = redirect
   }
 }
 
 // actions ==============================
 export const actions = {
+  setLoading({ state, commit }, bool) {
+    console.log('authPagOnfirstLoad', state.authPagOnfirstLoad)
+    if (state.authPagOnfirstLoad && !state.authUser) {
+      // Auth Middleware (token && authUser === null && loading)
+      console.info('redirecting for invalid token & first load')
+      this.$router.push('/login')
+      commit('_setLoading', bool)
+    }
+
+    commit('_setLoading', bool)
+  },
+  authPagOnfirstLoad({ commit }, bool) {
+    // Auth Middleware (token && authUser === null && loading)
+    commit('_authPagOnfirstLoad', bool)
+  },
   setAuthUser({ commit }, newAuthUser) {
     commit('_setAuthUser', newAuthUser)
   },
   async signIn({ commit }, { email, password }) {
+    const { $apollo } = this.$router.app
     try {
-      const { $apollo } = this.$router.app
       // Call to the graphql mutation
       const res = await $apollo.mutate({
         // Query
@@ -74,18 +87,37 @@ export const actions = {
       console.log({ err })
     }
   },
-  setLoading({ commit, dispatch, state, ...ctx }, bool) {
-    console.log('authPagOnfirstLoad', state.authPagOnfirstLoad)
-    if (state.authPagOnfirstLoad && !state.authUser) {
-      // redirecting from store
-      console.info('redirecting for invalid token & first load')
-      state.redirectFnc('/login')
-    }
+  async getAuthUserOnAppLoads({ getters, commit, dispatch }) {
+    // Runs on App first loads
+    const { $apollo } = this.$router.app
+    console.log('app first load from vuex')
 
-    commit('_setLoading', bool)
-  },
-  authPagOnfirstLoad({ commit, ...ctx }, payload) {
-    commit('_authPagOnfirstLoad', payload)
+    // If app isn't loadin then exit & stop executing
+    if (!getters.loading) return
+
+    try {
+      console.time('gerAuthUser')
+      const { data } = await $apollo.query({
+        query: gql`
+          query me {
+            me {
+              id
+              name
+              username
+            }
+          }
+        `
+      })
+      console.timeEnd('gerAuthUser')
+      // set store
+      dispatch('setAuthUser', data.me)
+      dispatch('setLoading', false)
+      console.log({ authUser: data.me })
+    } catch (err) {
+      this.$router.push('/login')
+      dispatch('setLoading', false)
+      console.log({ err })
+    }
   }
 }
 

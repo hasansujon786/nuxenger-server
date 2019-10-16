@@ -48,8 +48,6 @@ export default {
     }
   },
   mounted() {
-    // const token = this.$apolloHelpers.getToken()
-    // console.log(token)
   },
   methods: {
     handleSubmit() {

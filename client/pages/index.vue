@@ -28,9 +28,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'index-page',
-  mounted() {
-    console.log('index page mounted')
-  },
   data() {
     return {}
   },

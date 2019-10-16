@@ -25,7 +25,7 @@ export default async ({ store, redirect, app: { $apolloHelpers } }) => {
     redirect('/login')
   } else if (token && authUser === null && loading) {
     // should redirect or not dicide after stop loading
-    store.dispatch('auth/authPagOnfirstLoad', { bool: true, redirect })
+    store.dispatch('auth/authPagOnfirstLoad', true)
   } else if (token && authUser === null && !loading) {
     // if invalid token
     console.info('redirec for invalid token')
