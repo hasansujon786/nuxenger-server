@@ -1,6 +1,6 @@
 <template functional>
   <div
-    class="dropdown bg-white shadow-md rounded absolute text-sm"
+    class="dropdown bg-white shadow-md rounded absolute text-sm z-50"
     :class="props.classNames"
     :style="props.styleProps"
   >
@@ -26,10 +26,6 @@ export default {
     classNames: String,
     dropdown: Array
   }
-  // test(m) {
-  //   console.log(m)
-  //   //  $options.test(props.dropdown)
-  // }
 }
 </script>
 

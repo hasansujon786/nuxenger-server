@@ -3,8 +3,8 @@ import gql from 'graphql-tag'
 export const state = () => ({
   loading: true,
   error: false,
-  authUser: null,
-  authPagOnfirstLoad: false,
+  authUser: {},
+  authPagOnfirstLoad: false
 })
 
 // mutations ==============================

@@ -1,13 +1,13 @@
 <template>
   <nuxt-link
-    to="/m/243"
+    :to="`/chats/${chatId}`"
     class="recent-item flex flex-no-wrap items-center hover:bg-gray-400 cursor-pointer py-3 px-4"
   >
     <avater classNames="mr-3" />
     <div class="flex-1 min-w-0">
       <div class="flex justify-between mb-1">
         <h2 class="font-semibold text-sm">
-          Laurie Stewart
+          {{ title }}
         </h2>
         <span class="text-sm">
           Tue
@@ -28,6 +28,10 @@
 <script>
 import AvaterVue from '../ui-elements/Avater.vue'
 export default {
+  props: {
+    title: String,
+    chatId: String
+  },
   components: {
     avater: AvaterVue
   }

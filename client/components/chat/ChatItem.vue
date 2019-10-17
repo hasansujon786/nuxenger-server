@@ -1,9 +1,14 @@
 <template>
-  <div class="flex mt-3">
-    <div class="avater-wrapper" :class="{ r: isUser, l: !isUser }">
-      <avater size="xs" classNames="-mt-2" />
+  <div class="mt-3">
+    <div class="flex">
+      <span class="text-sm toolbox" :class="{ r: isUser, l: !isUser }">{{ msg.sender.name }}</span>
     </div>
-    <chat-bubble :tail="isUser ? 'r' : 'l'">{{ msg.text }}</chat-bubble>
+    <div class="flex ">
+      <div class="avater-wrapper" :class="{ r: isUser, l: !isUser }">
+        <avater :name="msg.sender.name" size="xs" classNames="-mt-2" />
+      </div>
+      <chat-bubble :tail="isUser ? 'r' : 'l'">{{ msg.body }} {{ msg.sender.name }}</chat-bubble>
+    </div>
   </div>
 </template>
 
@@ -16,10 +21,10 @@ export default {
   },
   computed: {
     isUser() {
-      return this.userId === this.msg.userId
+      return this.currentUserId === this.msg.sender.id
     }
   },
-  props: ['msg', 'userId'],
+  props: ['msg', 'currentUserId'],
   components: {
     chatBubble: ChatBubble,
     avater: Avater
@@ -47,5 +52,16 @@ export default {
 .chat-item-leave-to {
   opacity: 0;
   transform: translateY(20px);
+}
+
+.toolbox {
+  &.r {
+    margin-left: auto;
+    margin-right: 3rem;
+  }
+  &.l {
+    margin-right: auto;
+    margin-left: 3rem;
+  }
 }
 </style>

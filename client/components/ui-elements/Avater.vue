@@ -5,7 +5,7 @@
       class="w-full h-full bg-gray-500 flex-center bg-no-repeat bg-center bg-contain rounded-full"
       :style="`backgroundImage: url(${props.img})`"
     >
-      {{ props.img ? '' : 'NA' }}
+      {{ props.img ? '' : props.name.charAt(0).toUpperCase() }}
     </div>
   </a>
 </template>
@@ -17,6 +17,10 @@ export default {
     size: {
       type: String,
       default: 'md'
+    },
+    name: {
+      type: String,
+      default: 'Nelson'
     },
     classNames: String
   }

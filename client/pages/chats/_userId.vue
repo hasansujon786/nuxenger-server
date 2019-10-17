@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col flex-1">
     <chat-box-head :user="userId" />
-    <chat-box userId="1" :msgs="msgs" />
+    <chat-box userId="1" :msgs="chat.messages" />
     <chat-box-input @on-submit="handleSubmit" />
   </div>
 </template>
@@ -10,27 +10,56 @@
 import ChatBoxHeadVue from '@/components/chat/ChatBoxHead.vue'
 import ChatBoxVue from '@/components/chat/ChatBox.vue'
 import ChatBoxInputVue from '@/components/chat/ChatBoxInput.vue'
+import gql from 'graphql-tag'
+
 export default {
   middleware: 'authenticated',
   data() {
     return {
       userId: null,
-      msgs: [
-        { id: '1', text: 'Hello how from hasan', userId: '1' },
-        { id: '2', text: 'Hello how aryou', userId: '2' },
-        { id: '3', text: 'Hello how aryou', userId: '2' },
-        { id: '4', text: 'Hello how from hasan', userId: '1' }
-      ]
+      chat: {}
     }
+  },
+  mounted() {
+    this.getChat(this.$route.params.userId)
   },
   methods: {
     handleSubmit(value) {
       const id = Math.random()
       this.msgs.push({ id, text: value, userId: '2' })
+    },
+    async getChat(userId) {
+      try {
+        // Call to the graphql mutation
+        const { data } = await this.$apollo.query({
+          // Query
+          query: gql`
+            query($chatId: String) {
+              chat(chatId: $chatId) {
+                id
+                title
+                messages {
+                  id
+                  body
+                  sender {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+          `,
+          // Parameters
+          variables: {
+            chatId: userId
+          }
+        })
+
+        this.chat = data.chat
+      } catch (err) {
+        console.log({ err })
+      }
     }
-  },
-  mounted() {
-    this.userId = this.$route.params.userId
   },
   components: {
     chatBoxHead: ChatBoxHeadVue,

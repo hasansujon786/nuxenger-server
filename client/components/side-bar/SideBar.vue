@@ -5,7 +5,18 @@
   >
     <!-- head -->
     <div class="head h-16 w-full items-center flex px-3">
-      <div class="relative">
+      <avater
+        size="sm"
+        :name="$store.getters['auth/authUser'].name"
+        classNames="ml-2"
+        tabindex="0"
+        title="Hasan Mahmud"
+      />
+      <h1 class="font-bold text-3xl -mt-2 ml-3">{{ shwoRecent ? 'nuxanger' : 'active' }}</h1>
+
+      <icon-btn @click="startNewChat" class="ml-auto" icon="plus"></icon-btn>
+      <icon-btn @click="shwoRecent = !shwoRecent" class="ml-3" title="Active Users" icon="zap" />
+      <div class="relative ml-3">
         <icon-btn @click="showDropdown = !showDropdown" icon="menu" title="Toggle Recents" />
         <dropdown
           :dropdown="dropdown"
@@ -14,44 +25,26 @@
           styleProps="top: 3rem; left: -5px"
         />
       </div>
-
-      <h1 class="font-bold text-3xl -mt-2 ml-3">{{ shwoRecent ? 'nuxanger' : 'active' }}</h1>
-
-      <icon-btn @click="shwoRecent = !shwoRecent" class="ml-auto" title="Active Users" icon="zap" />
-      <avater size="sm" :img="me" classNames="ml-2" tabindex="0" title="Hasan Mahmud" />
     </div>
 
     <!-- search -->
     <recent-search class="mx-3" />
 
     <!-- recent -->
-    <ul v-if="shwoRecent" class="flex flex-col mt-3 w-full list-reset select-none">
-      <recent-item class="active" />
-      <recent-item />
-      <recent-item />
-      <recent-item />
-      <recent-item />
-      <recent-item />
-      <recent-item />
-    </ul>
+    <RecentItemList v-if="shwoRecent" />
     <!-- active -->
-    <ul v-else class="flex flex-col mt-3 w-full list-reset select-none">
-      <active-item />
-      <active-item />
-      <active-item />
-      <active-item />
-      <active-item />
-    </ul>
+    <ActiveUserList v-else />
   </div>
 </template>
 
 <script>
-import RecentItemVue from './RecentItem.vue'
+import RecentItemList from './RecentItemList.vue'
+import ActiveUserList from './ActiveUserList.vue'
 import RecentSearchVue from './RecentSearch.vue'
-import ActiveItemVue from './ActiveItem.vue'
 import IconBtnVue from '../ui-elements/IconBtn.vue'
 import AvaterVue from '../ui-elements/Avater.vue'
 import DropdownVue from '../ui-elements/Dropdown.vue'
+
 export default {
   data() {
     return {
@@ -71,21 +64,21 @@ export default {
     handleDropdownClick(dropdownOption) {
       console.log('clicked', dropdownOption)
       this.showDropdown = false
-      if(dropdownOption === 'logout') {
+      if (dropdownOption === 'logout') {
         this.logout()
       }
     },
-    logout() {
-      this.$router.push('/')
+    startNewChat() {
+      console.log('clicked')
     }
   },
   components: {
-    recentItem: RecentItemVue,
+    RecentItemList,
     recentSearch: RecentSearchVue,
-    activeItem: ActiveItemVue,
     iconBtn: IconBtnVue,
     avater: AvaterVue,
-    dropdown: DropdownVue
+    dropdown: DropdownVue,
+    ActiveUserList
   }
 }
 </script>

@@ -1,11 +1,11 @@
 <template>
   <div class="font-sans">
-    <nav class="flex">
+    <nav v-if="this.$route.name !== 'chats-userId'" class="flex">
       <span class="ml-auto mr-16 mt-5">
         <nuxt-link class="text-green-600 hover:underline m-3" to="/">Home</nuxt-link>
         <nuxt-link class="text-green-600 hover:underline m-3" to="/secret">Secret</nuxt-link>
         <nuxt-link class="text-green-600 hover:underline m-3" to="/random">Style guide</nuxt-link>
-        <nuxt-link class="text-green-600 hover:underline m-3" to="/chats/343">Open app</nuxt-link>
+        <nuxt-link class="text-green-600 hover:underline m-3" to="/chats">Open app</nuxt-link>
         <nuxt-link class="text-green-600 hover:underline m-3" to="/login">Sign in</nuxt-link>
         <button @click="signOut" class="text-green-600 hover:underline m-3">Sign out</button>
       </span>

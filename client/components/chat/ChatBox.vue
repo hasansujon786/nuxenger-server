@@ -5,7 +5,12 @@
   >
     <capsule classNames="mt-3 self-center">End</capsule>
     <transition-group name="chat-item">
-      <chat-item v-for="msg in msgs" userId="1" :msg="msg" :key="msg.id" />
+      <chat-item
+        v-for="msg in msgs"
+        :currentUserId="$store.getters['auth/authUser'].id"
+        :msg="msg"
+        :key="msg.id"
+      />
     </transition-group>
   </div>
 </template>
