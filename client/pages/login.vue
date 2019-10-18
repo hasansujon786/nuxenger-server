@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-center flex-col min-h-screen">
+  <div class="min-h-screen pt-16">
     <sign-in-form @change-view="showSignIn = !showSignIn" v-if="showSignIn"></sign-in-form>
     <sign-up-form @change-view="showSignIn = !showSignIn" v-else></sign-up-form>
   </div>

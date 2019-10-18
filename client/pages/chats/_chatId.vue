@@ -20,8 +20,8 @@ export default {
       chat: {}
     }
   },
-  mounted() {
-    this.getChat(this.$route.params.userId)
+  created() {
+    this.getChat(this.$route.params.chatId)
   },
   methods: {
     handleSubmit(value) {
@@ -59,6 +59,12 @@ export default {
       } catch (err) {
         console.log({ err })
       }
+    }
+  },
+  watch: {
+    $route(to, from) {
+      // console.log({ to }, { from })
+      this.getChat(this.$route.params.chatId)
     }
   },
   components: {

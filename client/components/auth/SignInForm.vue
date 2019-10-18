@@ -1,6 +1,10 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="shadow-lg rounded border px-16 py-12">
-    <div style="width: 360px" class="text-center">
+  <form
+    @submit.prevent="handleSubmit"
+    style="width: 540px"
+    class="shadow-lg rounded border px-16 py-12 mx-auto mt-32"
+  >
+    <div class="text-center">
       <h3 class="text-4xl font-bold">Sign in</h3>
       <ui-input
         v-model="signin.email"
@@ -47,8 +51,7 @@ export default {
       }
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     handleSubmit() {
       const { email, password } = this.signin

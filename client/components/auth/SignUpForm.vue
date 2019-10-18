@@ -1,6 +1,10 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="shadow-lg rounded border  px-16 py-12">
-    <div style="width: 360px" class="text-center">
+  <form
+    @submit.prevent="handleSubmit"
+    style="width: 540px"
+    class="shadow-lg rounded border px-16 py-12 mx-auto mt-32"
+  >
+    <div class="text-center">
       <h3 class="text-4xl font-bold">Sign Up</h3>
       <ui-input
         v-model="signUp.email"

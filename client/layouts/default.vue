@@ -1,14 +1,19 @@
 <template>
-  <div class="font-sans">
-    <nav v-if="this.$route.name !== 'chats-userId'" class="flex">
-      <span class="ml-auto mr-16 mt-5">
-        <nuxt-link class="text-green-600 hover:underline m-3" to="/">Home</nuxt-link>
-        <nuxt-link class="text-green-600 hover:underline m-3" to="/secret">Secret</nuxt-link>
-        <nuxt-link class="text-green-600 hover:underline m-3" to="/random">Style guide</nuxt-link>
-        <nuxt-link class="text-green-600 hover:underline m-3" to="/chats">Open app</nuxt-link>
-        <nuxt-link class="text-green-600 hover:underline m-3" to="/login">Sign in</nuxt-link>
-        <button @click="signOut" class="text-green-600 hover:underline m-3">Sign out</button>
-      </span>
+  <div class="font-sans relative bg-gray-700">
+    <nav
+      v-if="this.$route.name !== 'chats-chatId'"
+      class="h-16 sticky w-full top-0 items-center pt-1 flex justify-center shadow-md"
+    >
+      <nuxt-link class="text-green-600 hover:underline m-3" to="/">Home</nuxt-link>
+      <nuxt-link class="text-green-600 hover:underline m-3" to="/secret">Secret</nuxt-link>
+      <nuxt-link class="text-green-600 hover:underline m-3" to="/random">Style guide</nuxt-link>
+      <nuxt-link class="text-green-600 hover:underline m-3" to="/chats">Open app</nuxt-link>
+      <nuxt-link v-if="!authUser" class="text-green-600 hover:underline m-3" to="/login"
+        >Sign In</nuxt-link
+      >
+      <a href="#" v-else @click.prevent="signOut" class="text-green-600 hover:underline m-3"
+        >Sign Out</a
+      >
     </nav>
     <h1 class="mt-10 text-center text-3xl" v-show="loading && !error">Loading...</h1>
     <h1 class="mt-10 text-center text-3xl" v-show="!loading && error">Somethign went wrong</h1>

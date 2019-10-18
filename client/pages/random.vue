@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min-h-screen ">
     <!-- Buttons -->
     <section>
       <h1 class="text-5xl">Buttons</h1>

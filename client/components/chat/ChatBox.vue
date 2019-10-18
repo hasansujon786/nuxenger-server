@@ -1,15 +1,15 @@
 <template>
   <div
     class="px-4 flex flex-col pb-12 overflow-y-scroll w-full flex-auto bg-no-repeat bg-center bg-cover"
-    style="background-image: url(https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/Telegram/Resources/art/bg.jpg)"
   >
+    <!-- style="background-image: url(https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/Telegram/Resources/art/bg.jpg)" -->
     <capsule classNames="mt-3 self-center">End</capsule>
-    <transition-group name="chat-item">
+    <transition-group mode="out-in" name="chat-item">
       <chat-item
         v-for="msg in msgs"
         :currentUserId="$store.getters['auth/authUser'].id"
-        :msg="msg"
         :key="msg.id"
+        :msg="msg"
       />
     </transition-group>
   </div>

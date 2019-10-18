@@ -7,7 +7,7 @@
       <div class="avater-wrapper" :class="{ r: isUser, l: !isUser }">
         <avater :name="msg.sender.name" size="xs" classNames="-mt-2" />
       </div>
-      <chat-bubble :tail="isUser ? 'r' : 'l'">{{ msg.body }} {{ msg.sender.name }}</chat-bubble>
+      <chat-bubble :tail="isUser ? 'r' : 'l'">{{ msg.body }}</chat-bubble>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .avater-wrapper {
   display: inline-flex;
 
@@ -44,16 +44,6 @@ export default {
   }
 }
 
-.chat-item-enter-active,
-.chat-item-leave-active {
-  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-}
-.chat-item-enter,
-.chat-item-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
 .toolbox {
   &.r {
     margin-left: auto;
@@ -63,5 +53,20 @@ export default {
     margin-right: auto;
     margin-left: 3rem;
   }
+}
+
+.chat-item-leave-active {
+  transition: opacity 0.1s ease-in-out;
+}
+.chat-item-enter-active {
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+.chat-item-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.chat-item-leave-to {
+  opacity: 0;
+  /* transform: translateY(-20px); */
 }
 </style>
