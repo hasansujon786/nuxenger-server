@@ -23,7 +23,7 @@ export const mutations = {
 // actions ==============================
 export const actions = {
   setLoading({ state, commit }, bool) {
-    console.log('authPagOnfirstLoad', state.authPagOnfirstLoad)
+    // console.log('authPagOnfirstLoad', state.authPagOnfirstLoad)
     if (state.authPagOnfirstLoad && !state.authUser) {
       // Auth Middleware (token && authUser === null && loading)
       console.info('redirecting for invalid token & first load')
@@ -87,11 +87,10 @@ export const actions = {
       console.log({ err })
     }
   },
-  async getAuthUserOnAppLoads({ getters, commit, dispatch }) {
+  async getAuthUserOnAppLoads({ getters, dispatch }) {
     // Runs on App first loads
     const { $apollo } = this.$router.app
-    console.log('app first load from vuex')
-
+    // console.log('app first load from vuex')
     // If app isn't loadin then exit & stop executing
     if (!getters.loading) return
 
@@ -104,18 +103,65 @@ export const actions = {
               id
               name
               username
+              chats {
+                id
+                title
+                lastMessage {
+                  id
+                  body
+                }
+              }
             }
           }
         `
       })
       console.timeEnd('gerAuthUser')
-      // set store
-      dispatch('setAuthUser', data.me)
-      dispatch('setLoading', false)
-      console.log({ authUser: data.me })
+
+      if (data.me) {
+        const { id, name, username, chats } = data.me
+
+        // set loading & authUser
+        dispatch('setAuthUser', { id, name, username })
+
+        // setting chats
+        this.commit('chat/_getChatList', chats)
+        this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+      } else {
+        this.$router.push('/login')
+      }
+      setTimeout(() => {
+        dispatch('setLoading', false)
+      }, 300)
     } catch (err) {
       this.$router.push('/login')
       dispatch('setLoading', false)
+      console.log({ err })
+    }
+  },
+  async signUp({}, { email, password, username, fullname }) {
+    const { $apollo } = this.$router.app
+    try {
+      // Call to the graphql mutation
+      const res = await $apollo.mutate({
+        // Query
+        mutation: gql`
+          mutation($email: String!, $password: String!, $username: String!, $fullname: String!) {
+            signUp(email: $email, password: $password, username: $username, name: $fullname) {
+              id
+            }
+          }
+        `,
+        // Parameters
+        variables: {
+          email,
+          password,
+          username,
+          fullname
+        }
+      })
+
+      this.$router.push('/login')
+    } catch (err) {
       console.log({ err })
     }
   }
