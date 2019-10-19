@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import RecentItemList from './RecentItemList.vue'
 import ActiveUserList from './ActiveUserList.vue'
 import RecentSearchVue from './RecentSearch.vue'
@@ -61,11 +62,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      signOut: 'auth/signOut'
+    }),
     handleDropdownClick(dropdownOption) {
       console.log('clicked', dropdownOption)
       this.showDropdown = false
-      if (dropdownOption === 'logout') {
-        this.logout()
+      switch (dropdownOption) {
+        case 'logout':
+          this.signOut()
+          break
+
+        case value:
+          break
+
+        default:
+          break
       }
     },
     startNewChat() {

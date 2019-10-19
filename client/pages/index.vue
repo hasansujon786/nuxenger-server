@@ -10,23 +10,14 @@
 </template>
 
 <script>
-import SignInFormVue from '@/components/auth/SignInForm.vue'
-import SignUpFormVue from '@/components/auth/SignUpForm.vue'
-import gql from 'graphql-tag'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'index-page',
-  data() {
-    return {}
-  },
   computed: {
     authUser() {
       return this.$store.getters['auth/authUser']
     }
-  },
-  methods: {
-    ...mapActions({ signOut: 'auth/signOut' })
   }
 }
 </script>

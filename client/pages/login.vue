@@ -1,45 +1,64 @@
 <template>
   <div class="min-h-screen pt-16">
-    <sign-in-form @change-view="showSignIn = !showSignIn" v-if="showSignIn"></sign-in-form>
-    <sign-up-form @change-view="showSignIn = !showSignIn" v-else></sign-up-form>
+    <form-wrapper>
+      <form @submit.prevent="handleSubmit" class="w-full text-center">
+        <h3 class="text-4xl font-bold">Sign in</h3>
+        <ui-input
+          v-model="signin.email"
+          placeholder="Email"
+          classNames="mt-3"
+          type="email"
+          required
+        ></ui-input>
+
+        <ui-input
+          v-model="signin.password"
+          placeholder="Password"
+          classNames="mt-4"
+          type="password"
+          required
+        ></ui-input>
+
+        <ui-button classNames="w-full mt-4">Sign in</ui-button>
+        <p class="mt-6 text-sm text-gray-600">
+          Don't have any account?
+          <nuxt-link to="/signup" class="ml-1 text-primary font-bold">Sign up</nuxt-link>
+        </p>
+      </form>
+    </form-wrapper>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
-import SignInFormVue from '@/components/auth/SignInForm.vue'
-import SignUpFormVue from '@/components/auth/SignUpForm.vue'
+import InputVue from '@/components/ui-elements/Input.vue'
+import ButtonVue from '@/components/ui-elements/Button.vue'
+import FormWrapper from '@/components/auth/FormWrapper.vue'
 
 export default {
   name: 'login',
   // layout: 'auth',
-  // middleware: 'guest',
+  middleware: 'guest',
   data() {
     return {
-      showSignIn: true
+      signin: {
+        email: 'kuddus@gmail.com',
+        password: 'Test123123'
+      }
     }
   },
   mounted() {},
+
   methods: {
-    async signOut() {
-      const result = await this.$apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation {
-            signOut
-          }
-        `
-      })
-      this.$store.dispatch('auth/setAuthUser', null)
-      this.$router.push('/login')
-    },
-    test() {}
+    handleSubmit() {
+      const { email, password } = this.signin
+      if (!email && !password) return
+      this.$store.dispatch('auth/signIn', { email, password })
+    }
   },
   components: {
-    signInForm: SignInFormVue,
-    signUpForm: SignUpFormVue
+    formWrapper: FormWrapper,
+    uiInput: InputVue,
+    uiButton: ButtonVue
   }
 }
 </script>
-
-<style></style>

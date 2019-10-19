@@ -1,20 +1,5 @@
 <template>
-  <div class="font-sans relative bg-gray-700">
-    <nav
-      v-if="this.$route.name !== 'chats-chatId'"
-      class="h-16 sticky w-full top-0 items-center pt-1 flex justify-center shadow-md"
-    >
-      <nuxt-link class="text-green-600 hover:underline m-3" to="/">Home</nuxt-link>
-      <nuxt-link class="text-green-600 hover:underline m-3" to="/secret">Secret</nuxt-link>
-      <nuxt-link class="text-green-600 hover:underline m-3" to="/random">Style guide</nuxt-link>
-      <nuxt-link class="text-green-600 hover:underline m-3" to="/chats">Open app</nuxt-link>
-      <nuxt-link v-if="!authUser" class="text-green-600 hover:underline m-3" to="/login"
-        >Sign In</nuxt-link
-      >
-      <a href="#" v-else @click.prevent="signOut" class="text-green-600 hover:underline m-3"
-        >Sign Out</a
-      >
-    </nav>
+  <div class="font-sans relative bg-gray-70">
     <h1 class="mt-10 text-center text-3xl" v-show="loading && !error">Loading...</h1>
     <h1 class="mt-10 text-center text-3xl" v-show="!loading && error">Somethign went wrong</h1>
     <nuxt v-show="!loading" />
@@ -22,22 +7,38 @@
 </template>
 
 <script>
-import gql from 'graphql-tag'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
   computed: {
     ...mapGetters({
       error: 'auth/error',
-      loading: 'auth/loading',
-      authUser: 'auth/authUser'
+      loading: 'auth/loading'
     })
   },
   mounted() {
     this.getAuthUserOnAppLoads()
+
+    function handleFirstTab(e) {
+      if (e.keyCode === 9) {
+        document.body.classList.add('user-is-tabbing')
+
+        window.removeEventListener('keydown', handleFirstTab)
+        window.addEventListener('mousedown', handleMouseDownOnce)
+      }
+    }
+
+    function handleMouseDownOnce() {
+      document.body.classList.remove('user-is-tabbing')
+
+      window.removeEventListener('mousedown', handleMouseDownOnce)
+      window.addEventListener('keydown', handleFirstTab)
+    }
+
+    window.addEventListener('keydown', handleFirstTab)
   },
   methods: {
     ...mapActions({
-      signOut: 'auth/signOut',
       getAuthUserOnAppLoads: 'auth/getAuthUserOnAppLoads'
     })
   }
