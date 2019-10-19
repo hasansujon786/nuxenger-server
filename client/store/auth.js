@@ -40,11 +40,11 @@ export const actions = {
   setAuthUser({ commit }, newAuthUser) {
     commit('_setAuthUser', newAuthUser)
   },
-  async signIn({ commit }, { email, password }) {
+  async signIn({ dispatch }, { email, password }) {
     const { $apollo } = this.$router.app
     try {
       // Call to the graphql mutation
-      const res = await $apollo.mutate({
+      const { data } = await $apollo.mutate({
         // Query
         mutation: gql`
           mutation($email: String!, $password: String!) {
@@ -52,6 +52,14 @@ export const actions = {
               id
               name
               username
+              chats {
+                id
+                title
+                lastMessage {
+                  id
+                  body
+                }
+              }
             }
           }
         `,
@@ -62,9 +70,19 @@ export const actions = {
         }
       })
 
-      commit('_setAuthUser', res.data.signIn)
-      this.$router.push('/')
+      if (data.signIn) {
+        const { id, name, username, chats } = data.signIn
+        // set loading & authUser
+        dispatch('setAuthUser', { id, name, username })
+
+        // setting chats
+        this.commit('chat/_getChatList', chats)
+        this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+      } else {
+        this.$router.push('/login')
+      }
     } catch (err) {
+      this.$router.push('/login')
       console.log({ err })
     }
   },
@@ -80,20 +98,21 @@ export const actions = {
         `
       })
       if (data.signOut) {
-        commit('_setAuthUser', null)
         this.$router.push('/login')
+        setTimeout(() => {
+          commit('_setAuthUser', null)
+        }, 500)
       }
     } catch (err) {
       console.log({ err })
     }
   },
-  async getAuthUserOnAppLoads({ getters, dispatch }) {
+  async getAuthUserOnAppLoads({ dispatch }) {
+    console.info('app first load from vuex')
     // Runs on App first loads
     const { $apollo } = this.$router.app
-    // console.log('app first load from vuex')
     // If app isn't loadin then exit & stop executing
     if (!getters.loading) return
-
     try {
       console.time('gerAuthUser')
       const { data } = await $apollo.query({
@@ -116,11 +135,9 @@ export const actions = {
         `
       })
       console.timeEnd('gerAuthUser')
-
+      console.log({ authUser: data.me })
       if (data.me) {
         const { id, name, username, chats } = data.me
-
-        // set loading & authUser
         dispatch('setAuthUser', { id, name, username })
 
         // setting chats
@@ -142,7 +159,7 @@ export const actions = {
     const { $apollo } = this.$router.app
     try {
       // Call to the graphql mutation
-      const res = await $apollo.mutate({
+      const { data } = await $apollo.mutate({
         // Query
         mutation: gql`
           mutation($email: String!, $password: String!, $username: String!, $fullname: String!) {
@@ -159,6 +176,9 @@ export const actions = {
           fullname
         }
       })
+
+      // TODO: Show a successfull popup
+      // if(data.signUp) { }
 
       this.$router.push('/login')
     } catch (err) {

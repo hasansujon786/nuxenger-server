@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   computed: {
@@ -17,7 +17,7 @@ export default {
     })
   },
   mounted() {
-    this.getAuthUserOnAppLoads()
+    this.$store.dispatch('auth/getAuthUserOnAppLoads')
 
     function handleFirstTab(e) {
       if (e.keyCode === 9) {
@@ -36,11 +36,6 @@ export default {
     }
 
     window.addEventListener('keydown', handleFirstTab)
-  },
-  methods: {
-    ...mapActions({
-      getAuthUserOnAppLoads: 'auth/getAuthUserOnAppLoads'
-    })
   }
 }
 </script>
