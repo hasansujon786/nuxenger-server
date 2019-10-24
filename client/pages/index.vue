@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen">
-    <div class="text-center mt-40">
+  <div class="min-h-screen bg-gray-200">
+    <!-- <div class="text-center mt-40">
       <h1 class="text-6xl">nuxernger</h1>
       <div v-if="authUser">
         <h1 class="text-3xl">{{ authUser.name }}</h1>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

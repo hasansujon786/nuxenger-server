@@ -52,7 +52,7 @@ export default {
       dropdown: [
         {
           title: 'Settings',
-          options: ['hasan', 'sujon', 'kuddus', 'logout']
+          options: ['logout']
         }
       ],
       shwoRecent: true,

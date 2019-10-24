@@ -5,7 +5,7 @@
     :style="props.styleProps"
   >
     <div class="dropdown__tail absolute"></div>
-    <ul class="dropdown__list-wrapper pb-2 border-b" v-for="(drop, dI) in props.dropdown" :key="dI">
+    <ul class="dropdown__list-wrapper pb-1 border-b" v-for="(drop, dI) in props.dropdown" :key="dI">
       <li class="border-b py-1 px-4">{{ drop.title }}</li>
       <li
         class="dropdown__list-items"

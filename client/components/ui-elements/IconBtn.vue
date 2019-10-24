@@ -1,7 +1,6 @@
 <template>
   <button
     class="icon-bg bg-white flex-center border-gray-300 hover:border-gray-500 hover:bg-gray-100"
-    @keypress.enter="$emit('click')"
     v-bind="$attrs"
     v-on="$listeners"
   >
