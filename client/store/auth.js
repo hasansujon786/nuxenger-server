@@ -140,9 +140,11 @@ export const actions = {
         const { id, name, username, chats } = data.me
         dispatch('setAuthUser', { id, name, username })
 
-        // setting chats
+        // setting chatsList
         this.commit('chat/_getChatList', chats)
-        this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+        setTimeout(() => {
+          this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+        }, 200)
       } else {
         this.$router.push('/login')
       }

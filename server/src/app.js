@@ -1,4 +1,5 @@
-import { ApolloServer, gql } from 'apollo-server-express'
+import { ApolloServer, PubSub } from 'apollo-server-express'
+import { createServer } from 'http'
 import connectRedis from 'connect-redis'
 import session from 'express-session'
 import mongoose from 'mongoose'
@@ -65,12 +66,13 @@ const IN_PROD = NODE_ENV === 'production'
     )
 
     // ApolloServer Configs
+    const pubsub = new PubSub()
     const server = new ApolloServer({
       typeDefs,
       resolvers,
       playground: !IN_PROD,
       schemaDirectives,
-      context: ({ req, res }) => ({ req, res })
+      context: ({ req, res }) => ({ req, res, pubsub })
     })
 
     // server.applyMiddleware({ app })
@@ -80,9 +82,14 @@ const IN_PROD = NODE_ENV === 'production'
       cors: false // disables the apollo-server-express cors to allow the cors middleware use
     })
 
-    app.listen({ port: APP_PORT }, () =>
+    // WS subsription confog
+    const httpServer = createServer(app)
+    server.installSubscriptionHandlers(httpServer)
+
+    httpServer.listen({ port: APP_PORT }, () => {
       console.log(`Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)
-    )
+      // console.log(`Server ready at ws://localhost:${APP_PORT}${server.subscriptionsPath}`)
+    })
   } catch (error) {
     console.error('Error in main app', error)
   }

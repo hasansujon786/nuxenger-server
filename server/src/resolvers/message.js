@@ -1,12 +1,21 @@
 import { ValidationError, UserInputError } from 'apollo-server-express'
 // Custom modules
 import { sendMessageValidator } from '../validators'
-import { Message, User } from '../models'
+import { Message, User, Chat } from '../models'
 
 export default {
+  Subscription: {
+    message: {
+      // Additional event labels can be passed to asyncIterator creation
+      subscribe(parent, { chatId }, { pubsub }, info) {
+        // TODO: validate chatId
+        return pubsub.asyncIterator([`message-${chatId}`])
+      }
+    }
+  },
   Query: {},
   Mutation: {
-    async sendMessage(parent, args, { req }, info) {
+    async sendMessage(parent, args, { req, pubsub }, info) {
       // Validate user inputs
       const { error, value } = sendMessageValidator.validate(args, { abortEarly: false })
       if (error) {
@@ -17,8 +26,9 @@ export default {
       // Values
       const { body, chatId } = value
       const { userId } = req.session
-
-      return await Message.create({ body, chat: chatId, sender: userId })
+      const message = await Message.create({ body, chat: chatId, sender: userId })
+      pubsub.publish(`message-${chatId}`, { message: { mutation: 'NEW_MESSAGE', data: message } })
+      return message
     }
   },
   Message: {

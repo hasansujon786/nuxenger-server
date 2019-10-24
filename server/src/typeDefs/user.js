@@ -1,6 +1,9 @@
 import { gql } from 'apollo-server-express'
 
 export default gql`
+  extend type Subscription {
+    count: Int!
+  }
   extend type Query {
     me: User
     user(id: ID!): User @auth
