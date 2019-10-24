@@ -1,4 +1,5 @@
 import gql from 'graphql-tag'
+import { signInMutation, meQuery } from '../gql/user'
 
 export const state = () => ({
   loading: true,
@@ -37,47 +38,22 @@ export const actions = {
     // Auth Middleware (token && authUser === null && loading)
     commit('_authPagOnfirstLoad', bool)
   },
-  setAuthUser({ commit }, newAuthUser) {
-    commit('_setAuthUser', newAuthUser)
+  setAuthUser({ commit }, { id, name, username, chats }) {
+    commit('_setAuthUser', { id, name, username })
+
+    this.commit('chat/_getChatList', chats)
+    chats.length > 0
+      ? this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+      : this.$router.push({ name: 'chats-chatId' })
   },
-  async signIn({ dispatch }, { email, password }) {
-    const { $apollo } = this.$router.app
+  async signIn({ dispatch }, payload) {
     try {
       // Call to the graphql mutation
-      const { data } = await $apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation($email: String!, $password: String!) {
-            signIn(email: $email, password: $password) {
-              id
-              name
-              username
-              chats {
-                id
-                title
-                lastMessage {
-                  id
-                  body
-                }
-              }
-            }
-          }
-        `,
-        // Parameters
-        variables: {
-          email,
-          password
-        }
-      })
+      const { data } = await signInMutation(this.$router.app, payload)
 
       if (data.signIn) {
-        const { id, name, username, chats } = data.signIn
-        // set loading & authUser
-        dispatch('setAuthUser', { id, name, username })
-
-        // setting chats
-        this.commit('chat/_getChatList', chats)
-        this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+        // set authUser & chatList & redirect
+        dispatch('setAuthUser', data.signIn)
       } else {
         this.$router.push('/login')
       }
@@ -110,47 +86,20 @@ export const actions = {
   async getAuthUserOnAppLoads({ dispatch }) {
     console.info('app first load from vuex')
     // Runs on App first loads
-    const { $apollo } = this.$router.app
-    // If app isn't loadin then exit & stop executing
-    if (!getters.loading) return
+    if (!getters.loading) return // If app isn't loadin then exit & stop executing
     try {
-      console.time('gerAuthUser')
-      const { data } = await $apollo.query({
-        query: gql`
-          query me {
-            me {
-              id
-              name
-              username
-              chats {
-                id
-                title
-                lastMessage {
-                  id
-                  body
-                }
-              }
-            }
-          }
-        `
-      })
-      console.timeEnd('gerAuthUser')
+      const { data } = await meQuery(this.$router.app)
       console.log({ authUser: data.me })
-      if (data.me) {
-        const { id, name, username, chats } = data.me
-        dispatch('setAuthUser', { id, name, username })
 
-        // setting chatsList
-        this.commit('chat/_getChatList', chats)
-        setTimeout(() => {
-          this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
-        }, 200)
+      if (data.me) {
+        // set authUser & chatList & redirect
+        dispatch('setAuthUser', data.me)
+
+        setTimeout(() => dispatch('setLoading', false), 100)
       } else {
         this.$router.push('/login')
-      }
-      setTimeout(() => {
         dispatch('setLoading', false)
-      }, 300)
+      }
     } catch (err) {
       this.$router.push('/login')
       dispatch('setLoading', false)

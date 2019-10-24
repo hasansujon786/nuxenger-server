@@ -24,7 +24,9 @@ export default {
     }
   },
   created() {
-    this.getChat(this.$route.params.chatId)
+    if (this.$route.params.chatId) {
+      this.getChat(this.$route.params.chatId)
+    }
   },
   methods: {
     handleSubmit(value) {
