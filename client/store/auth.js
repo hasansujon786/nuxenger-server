@@ -38,22 +38,25 @@ export const actions = {
     // Auth Middleware (token && authUser === null && loading)
     commit('_authPagOnfirstLoad', bool)
   },
-  setAuthUser({ commit }, { id, name, username, chats }) {
+  setAuthUser({ commit }, { id, name, username, chats, path }) {
     commit('_setAuthUser', { id, name, username })
 
     this.commit('chat/_getChatList', chats)
-    chats.length > 0
-      ? this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
-      : this.$router.push({ name: 'chats-chatId' })
+    if (path === '/' || path === '/chats' || path === '/login') {
+      // console.log('redirect form setAuther dispatc')
+      chats.length > 0
+        ? this.$router.push({ name: 'chats-chatId', params: { chatId: chats[0].id } })
+        : this.$router.push({ name: 'chats-chatId' })
+    }
   },
-  async signIn({ dispatch }, payload) {
+  async signIn({ dispatch }, { email, password, path }) {
     try {
       // Call to the graphql mutation
-      const { data } = await signInMutation(this.$router.app, payload)
+      const { data } = await signInMutation(this.$router.app, { email, password })
 
       if (data.signIn) {
         // set authUser & chatList & redirect
-        dispatch('setAuthUser', data.signIn)
+        dispatch('setAuthUser', { ...data.signIn, path })
       } else {
         this.$router.push('/login')
       }
@@ -83,7 +86,7 @@ export const actions = {
       console.log({ err })
     }
   },
-  async getAuthUserOnAppLoads({ dispatch }) {
+  async getAuthUserOnAppLoads({ dispatch }, { path }) {
     console.info('app first load from vuex')
     // Runs on App first loads
     if (!getters.loading) return // If app isn't loadin then exit & stop executing
@@ -93,7 +96,7 @@ export const actions = {
 
       if (data.me) {
         // set authUser & chatList & redirect
-        dispatch('setAuthUser', data.me)
+        dispatch('setAuthUser', { ...data.me, path })
 
         setTimeout(() => dispatch('setLoading', false), 100)
       } else {

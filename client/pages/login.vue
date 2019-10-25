@@ -52,7 +52,7 @@ export default {
     handleSubmit() {
       const { email, password } = this.signin
       if (!email && !password) return
-      this.$store.dispatch('auth/signIn', { email, password })
+      this.$store.dispatch('auth/signIn', { email, password, path: this.$route.path })
     }
   },
   components: {

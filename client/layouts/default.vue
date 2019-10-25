@@ -17,7 +17,7 @@ export default {
     })
   },
   mounted() {
-    this.$store.dispatch('auth/getAuthUserOnAppLoads')
+    this.$store.dispatch('auth/getAuthUserOnAppLoads', { path: this.$route.path })
 
     function handleFirstTab(e) {
       if (e.keyCode === 9) {
