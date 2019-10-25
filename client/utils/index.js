@@ -1,5 +1,7 @@
-export const scrollToBottomOfChatBox = () => {
-  const element = document.getElementById('scrollToBottomOfChatBox')
+export const scrollToBottomOfChatBox = ({ el, smooth }) => {
+  const element = document.getElementById(el)
   // element.scrollIntoView(false)
-  element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' })
+  smooth
+    ? element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' })
+    : element.scrollIntoView(false)
 }

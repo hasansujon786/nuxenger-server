@@ -12,7 +12,7 @@
         :msg="msg"
       />
     </transition-group>
-    <div id="scrollToBottomOfChatBox" class="pb-12"></div>
+    <div id="chatboxBtm" class="pb-12"></div>
   </div>
 </template>
 

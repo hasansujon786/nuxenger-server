@@ -68,6 +68,9 @@ export default {
         })
 
         this.chat = data.chat
+        setTimeout(() => {
+          scrollToBottomOfChatBox({ el: 'chatboxBtm', smooth: false })
+        }, 100)
       } catch (err) {
         console.log('error form getChat', { err })
       }
@@ -106,7 +109,9 @@ export default {
         result({ data }) {
           const newMsg = data.message.data
           this.chat.messages.push(newMsg)
-          setTimeout(() => scrollToBottomOfChatBox(), 100)
+          setTimeout(() => {
+            scrollToBottomOfChatBox({ el: 'chatboxBtm', smooth: false })
+          }, 100)
         }
       }
     }
