@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col flex-1">
-    <chat-box-head :user="userId" />
+    <chat-box-head :title="chat.title" />
     <chat-box userId="1" :msgs="chat.messages" />
     <chat-box-input @on-submit="submitNewMsg" />
   </div>

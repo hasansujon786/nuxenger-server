@@ -1,14 +1,27 @@
 <template>
-  <input
-    type="search"
-    class="w-full appearance-none bg-gray-200 text-base rounded px-4 h-10
-    rounded-full outline-none focus:shadow-outline"
-    placeholder="Search people..."
-  />
+  <div class="w-full">
+    <ui-input
+      v-model="search"
+      classNames="mt-3 rounded-full bg-gray-200"
+      type="search"
+      required
+      placeholder="Search people..."
+    />
+  </div>
 </template>
 
 <script>
-export default {}
+import InputVue from '../ui-elements/Input.vue'
+export default {
+  data() {
+    return {
+      search: ''
+    }
+  },
+  components: {
+    uiInput: InputVue
+  }
+}
 </script>
 
 <style></style>

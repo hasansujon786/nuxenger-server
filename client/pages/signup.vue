@@ -5,7 +5,7 @@
         <h3 class="text-4xl font-bold">Sign up</h3>
         <ui-input
           v-model="signUp.username"
-          classNames="mt-3"
+          classNames="mt-3 rounded-full bg-gray-100 border"
           type="text"
           required
           placeholder="Username"
@@ -13,7 +13,7 @@
 
         <ui-input
           v-model="signUp.fullname"
-          classNames="mt-3"
+          classNames="mt-3 rounded-full bg-gray-100 border"
           type="text"
           required
           placeholder="Full name"
@@ -22,14 +22,14 @@
         <ui-input
           required
           v-model="signUp.email"
-          classNames="mt-3"
+          classNames="mt-3 rounded-full bg-gray-100 border"
           type="email"
           placeholder="Email"
         ></ui-input>
 
         <ui-input
           v-model="signUp.password"
-          classNames="mt-4"
+          classNames="mt-3 rounded-full bg-gray-100 border"
           type="password"
           required
           placeholder="Password"
@@ -56,6 +56,7 @@ export default {
   middleware: 'guest',
   data() {
     return {
+      inputStyles: 'mt-3 rounded-full bg-gray-100 border',
       signUp: {
         username: 'myUsername',
         fullname: 'My Full Name',

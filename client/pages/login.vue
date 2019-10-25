@@ -6,15 +6,16 @@
         <ui-input
           v-model="signin.email"
           placeholder="Email"
-          classNames="mt-3"
+          classNames="mt-3 rounded-full bg-gray-100 border"
           type="email"
+          border
           required
         ></ui-input>
 
         <ui-input
           v-model="signin.password"
           placeholder="Password"
-          classNames="mt-4"
+          classNames="mt-3 rounded-full bg-gray-100 border"
           type="password"
           required
         ></ui-input>
