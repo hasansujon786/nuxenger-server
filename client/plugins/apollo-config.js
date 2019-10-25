@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from '../config'
+import { API_ENDPOINT, WS_ENDPOINT } from '../config'
 export default {
   // Session Cookie name
   tokenName: 'sid', // optional, default: apollo-token
@@ -51,8 +51,7 @@ export default {
       },
       // You can use `wss` for secure connection (recommended in production)
       // Use `null` to disable subscriptions
-      wsEndpoint: null, // optional
-      // wsEndpoint: 'ws://localhost:4000', // optional
+      wsEndpoint: WS_ENDPOINT, // optional
       // LocalStorage token
       tokenName: 'apollo-token', // optional
       // Enable Automatic Query persisting with Apollo Engine

@@ -1,11 +1,9 @@
 <template>
-  <chat-wrapper>
-    <div class="flex flex-col flex-1">
-      <chat-box-head :user="userId" />
-      <chat-box userId="1" :msgs="chat.messages" />
-      <chat-box-input @on-submit="handleSubmit" />
-    </div>
-  </chat-wrapper>
+  <div class="flex flex-col flex-1">
+    <chat-box-head :user="userId" />
+    <chat-box userId="1" :msgs="chat.messages" />
+    <chat-box-input @on-submit="submitNewMsg" />
+  </div>
 </template>
 
 <script>
@@ -14,6 +12,9 @@ import ChatBoxVue from '@/components/chat/ChatBox.vue'
 import ChatBoxInputVue from '@/components/chat/ChatBoxInput.vue'
 import ChatWrapper from '@/components/chat/ChatWrapper.vue'
 import gql from 'graphql-tag'
+
+import { sendNewMsg } from '@/gql/message'
+import { scrollToBottomOfChatBox } from '@/utils'
 
 export default {
   middleware: 'authenticated',
@@ -24,14 +25,20 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.chatId) {
-      this.getChat(this.$route.params.chatId)
+    console.log('created _chatId')
+    const { chatId } = this.$route.params
+    if (chatId) {
+      this.getChat(chatId)
     }
   },
   methods: {
-    handleSubmit(value) {
-      const id = Math.random()
-      this.msgs.push({ id, text: value, userId: '2' })
+    async submitNewMsg(body) {
+      const { chatId } = this.$route.params
+      try {
+        const { data } = await sendNewMsg({ $apollo: this.$apollo }, { body, chatId })
+      } catch (err) {
+        console.log('error form submitNewMsg', { err })
+      }
     },
     async getChat(userId) {
       try {
@@ -62,14 +69,46 @@ export default {
 
         this.chat = data.chat
       } catch (err) {
-        console.log({ err })
+        console.log('error form getChat', { err })
       }
     }
   },
   watch: {
     $route(to, from) {
-      // console.log({ to }, { from })
       this.getChat(this.$route.params.chatId)
+    }
+  },
+  apollo: {
+    // Subscriptions
+    $subscribe: {
+      // When a tag is added
+      message: {
+        query: gql`
+          subscription message($chatId: String!) {
+            message(chatId: $chatId) {
+              mutation
+              data {
+                id
+                body
+                sender {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        `,
+        variables() {
+          return {
+            chatId: this.$route.params.chatId
+          }
+        },
+        result({ data }) {
+          const newMsg = data.message.data
+          this.chat.messages.push(newMsg)
+          setTimeout(() => scrollToBottomOfChatBox(), 100)
+        }
+      }
     }
   },
   components: {

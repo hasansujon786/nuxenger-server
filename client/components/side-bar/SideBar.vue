@@ -10,7 +10,7 @@
         :name="$store.getters['auth/authUser'].name"
         classNames="ml-2"
         tabindex="0"
-        title="Hasan Mahmud"
+        :title="$store.getters['auth/authUser'].name"
       />
       <h1 class="font-bold text-3xl -mt-2 ml-3">{{ shwoRecent ? 'nuxanger' : 'active' }}</h1>
 
@@ -52,7 +52,7 @@ export default {
       dropdown: [
         {
           title: 'Settings',
-          options: ['logout']
+          options: ['secret', 'logout']
         }
       ],
       shwoRecent: true,
@@ -73,7 +73,8 @@ export default {
           this.signOut()
           break
 
-        case value:
+        case 'secret':
+          this.$router.push('/secret')
           break
 
         default:

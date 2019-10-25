@@ -1,6 +1,6 @@
 <template>
   <div
-    class="px-4 flex flex-col pb-12 overflow-y-scroll w-full flex-auto bg-no-repeat bg-center bg-cover"
+    class="px-4 flex flex-col overflow-y-scroll w-full flex-auto bg-no-repeat bg-center bg-cover"
   >
     <!-- style="background-image: url(https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/Telegram/Resources/art/bg.jpg)" -->
     <capsule classNames="mt-3 self-center">End</capsule>
@@ -12,6 +12,7 @@
         :msg="msg"
       />
     </transition-group>
+    <div id="scrollToBottomOfChatBox" class="pb-12"></div>
   </div>
 </template>
 
@@ -23,7 +24,6 @@ export default {
     msgs: Array,
     userId: String
   },
-  computed: {},
   components: {
     chatItem: ChatItemVue,
     capsule: CapsuleVue
