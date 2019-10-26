@@ -1,13 +1,13 @@
 <template>
   <nuxt-link
     :to="`/chats/${user.username}`"
-    class="recent-item flex flex-no-wrap items-center hover:bg-gray-400 text-black cursor-pointer px-3 py-2"
+    class="recent-item theme-list flex flex-no-wrap items-center text-black cursor-pointer px-3 py-2"
   >
     <avater size="xs" classNames="mr-3" :name="user.name" img="" />
     <div class="flex flex-1 justify-between">
       <h2 class="text-sm">{{ user.name }}</h2>
       <span class="text-sm">
-        Tue
+        {{ lastTime }}
       </span>
     </div>
   </nuxt-link>
@@ -17,7 +17,7 @@
 import AvaterVue from '@/components/ui-elements/Avater.vue'
 
 export default {
-  props: ['user'],
+  props: ['user', 'lastTime'],
   components: {
     avater: AvaterVue
   }

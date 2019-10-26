@@ -7,14 +7,13 @@
     <div class="head h-16 w-full items-center flex px-3">
       <avater
         size="sm"
-        :name="$store.getters['auth/authUser'].name"
         classNames="ml-2"
         tabindex="0"
         :title="$store.getters['auth/authUser'].name"
       />
       <h1 class="font-bold text-3xl -mt-2 ml-3">{{ shwoRecent ? 'nuxanger' : 'active' }}</h1>
 
-      <icon-btn @click="startNewChat" class="ml-auto" icon="plus"></icon-btn>
+      <icon-btn @click="toggleNewChatDialog" class="ml-auto" icon="plus"></icon-btn>
       <icon-btn @click="shwoRecent = !shwoRecent" class="ml-3" title="Active Users" icon="zap" />
       <div class="relative ml-3">
         <icon-btn @click="showDropdown = !showDropdown" icon="menu" title="Toggle Recents" />
@@ -27,10 +26,19 @@
       </div>
     </div>
 
+    <new-chat-dialog
+      v-if="showNewChatDialog"
+      @onStartNewChat="startNewChat"
+      class="mx-3 relative"
+    />
+
     <!-- search -->
     <recent-search class="mx-3" />
 
     <!-- recent -->
+    <!-- <ul class="flex flex-col mt-3 w-full list-reset select-none">
+      <recent-item></recent-item>
+    </ul> -->
     <RecentItemList v-if="shwoRecent" />
     <!-- active -->
     <ActiveUserList v-else />
@@ -45,10 +53,15 @@ import RecentSearchVue from './RecentSearch.vue'
 import IconBtnVue from '../ui-elements/IconBtn.vue'
 import AvaterVue from '../ui-elements/Avater.vue'
 import DropdownVue from '../ui-elements/Dropdown.vue'
+import RecentItemVue from './RecentItem.vue'
+import NewChatDialogVue from './NewChatDialog.vue'
+
+import { startChat } from '@/gql'
 
 export default {
   data() {
     return {
+      showNewChatDialog: false,
       dropdown: [
         {
           title: 'Settings',
@@ -81,17 +94,29 @@ export default {
           break
       }
     },
-    startNewChat() {
-      console.log('clicked')
+    toggleNewChatDialog() {
+      this.showNewChatDialog = !this.showNewChatDialog
+    },
+    async startNewChat({ name, id }) {
+      this.toggleNewChatDialog()
+      try {
+        const { data } = await startChat({ $apollo: this.$apollo }, { title: name, userIds: [id] })
+        console.log('newChat', { data })
+      } catch (err) {
+        console.log('err in startNewChat', { err })
+      }
+      console.log('new msg with', { name, id })
     }
   },
   components: {
     RecentItemList,
+    ActiveUserList,
     recentSearch: RecentSearchVue,
     iconBtn: IconBtnVue,
     avater: AvaterVue,
     dropdown: DropdownVue,
-    ActiveUserList
+    recentItem: RecentItemVue,
+    newChatDialog: NewChatDialogVue
   }
 }
 </script>

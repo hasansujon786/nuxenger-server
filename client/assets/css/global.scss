@@ -10,8 +10,8 @@ html {
 }
 
 body {
+  // background-color: #646f7a;
   @apply text-gray-900;
-  /* background-color: #35495e; */
 }
 
 body:not(.user-is-tabbing) button:focus,
@@ -20,6 +20,16 @@ body:not(.user-is-tabbing) select:focus,
 body:not(.user-is-tabbing) a[role='button']:focus,
 body:not(.user-is-tabbing) textarea:focus {
   outline: none;
+}
+.drop-shadow {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.theme-list {
+  &:hover {
+    @apply bg-gray-200;
+  }
 }
 
 .flex-center {

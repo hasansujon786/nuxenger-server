@@ -1,6 +1,12 @@
 <template>
   <ul class="flex flex-col mt-3 w-full list-reset select-none">
-    <recent-item :title="chat.title" :chatId="chat.id" v-for="chat in chatList" :key="chat.id" />
+    <recent-item
+      v-for="chat in chatList"
+      :title="chat.title"
+      :chatId="chat.id"
+      lastMsg="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus, laborum."
+      :key="chat.id"
+    />
   </ul>
 </template>
 

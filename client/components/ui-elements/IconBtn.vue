@@ -179,8 +179,8 @@ export default {
 
 <style lang="css" scoped>
 .icon-bg {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   /* transform: rotate() */
   @apply border  text-gray-900 rounded-full cursor-pointer;
 

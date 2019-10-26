@@ -1,7 +1,7 @@
 export const {
   APP_PORT = 4000,
   NODE_ENV = 'development',
-  MONGO_URI = 'mongodb://localhost/chat-app',
+  MONGO_URI = 'mongodb://localhost/nuxenger',
 
   SESS_NAME = 'sid',
   SESS_SECRET = 'secret!session',

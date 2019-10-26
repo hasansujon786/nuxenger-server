@@ -1,6 +1,6 @@
 <template>
   <ul class="flex flex-col mt-3 w-full list-reset select-none">
-    <ActiveItem :user="user" v-for="user in users" :key="user.id" />
+    <ActiveItem lastTime="Mon" :user="user" v-for="user in users" :key="user.id" />
   </ul>
 </template>
 

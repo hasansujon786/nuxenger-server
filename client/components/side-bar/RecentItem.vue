@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="`/chats/${chatId}`"
-    class="recent-item flex flex-no-wrap items-center hover:bg-gray-400 cursor-pointer py-3 px-4"
+    class="recent-item theme-list flex flex-no-wrap items-center cursor-pointer py-3 px-4"
   >
     <avater classNames="mr-3" />
     <div class="flex-1 min-w-0">
@@ -13,13 +13,8 @@
           Tue
         </span>
       </div>
-      <div class="text-sm text-gray-700 truncate">
-        <span>
-          <span class="text-blue">You:</span> Lorem, ipsum dolor sit amet consectetur adipisicing
-          elit. Ab quam perferendis nihil beatae, et accusamus voluptate quod sed necessitatibus ea
-          provident! Ducimus consequuntur exercitationem cupiditate possimus consequatur sunt
-          dignissimos voluptas?
-        </span>
+      <div v-show="lastMsg" class="text-sm text-gray-700 truncate">
+        <span> <span class="text-blue">You:</span> {{ lastMsg }}</span>
       </div>
     </div>
   </nuxt-link>
@@ -29,8 +24,15 @@
 import AvaterVue from '../ui-elements/Avater.vue'
 export default {
   props: {
-    title: String,
-    chatId: String
+    title: {
+      type: String,
+      default: 'New message'
+    },
+    chatId: {
+      type: String,
+      default: ''
+    },
+    lastMsg: String
   },
   components: {
     avater: AvaterVue

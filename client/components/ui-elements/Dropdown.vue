@@ -1,6 +1,6 @@
 <template functional>
   <div
-    class="dropdown bg-white shadow-md rounded absolute text-sm z-50"
+    class="dropdown drop-shadow bg-white shadow-md rounded absolute text-sm z-50"
     :class="props.classNames"
     :style="props.styleProps"
   >
@@ -32,8 +32,6 @@ export default {
 <style lang="scss" scoped>
 .dropdown {
   min-width: 9rem;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 
   &__tail {
     /* clip-path: polygon(50% 0%, 0% 100%, 100% 100%); */
