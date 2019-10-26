@@ -64,3 +64,9 @@ body:not(.user-is-tabbing) textarea:focus {
   color: #fff;
   background-color: #35495e;
 }
+
+/* Keep it in global Style file */
+.ui-select input[type='checkbox'] {
+  all: initial;
+  opacity: 0;
+}
