@@ -4,13 +4,22 @@ import { startChatValidator } from '../validators'
 import { User, Chat, Message } from '../models'
 
 export default {
+  Subscription: {
+    chat: {
+      // Additional event labels can be passed to asyncIterator creation
+      subscribe(parent, { currentUserId }, { pubsub }, info) {
+        // TODO: validate chatId
+        return pubsub.asyncIterator([`chat-${currentUserId}`])
+      }
+    }
+  },
   Query: {
     async chat(parent, { chatId }, ctx, info) {
       return await Chat.findById(chatId)
     }
   },
   Mutation: {
-    async startChat(parent, args, { req }, info) {
+    async startChat(parent, args, { req, pubsub }, info) {
       const { userId } = req.session
       const { title, userIds } = args
 
@@ -36,6 +45,13 @@ export default {
       const chat = await Chat.create({ title, users: userIds })
       // Updat Users
       await User.updateMany({ _id: { $in: userIds } }, { $push: { chats: chat } })
+
+      // Pubsish Chat Subscription to all the user
+      userIds.forEach(chathasUserId => {
+        pubsub.publish(`chat-${chathasUserId}`, {
+          chat: { mutation: 'NEW_CHAT', data: chat }
+        })
+      })
 
       return chat
     }

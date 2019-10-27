@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   extend type Subscription {
-    message(chatId: String!): MessageSubscriptionPayload
+    message(chatId: ID!): MessageSubscriptionPayload
   }
 
   extend type Mutation {

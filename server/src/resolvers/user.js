@@ -4,24 +4,8 @@ import { Types } from 'mongoose'
 import { User } from '../models'
 import { attemptToSignIn, attemptToSignOut } from '../auth'
 import { signUpValidator, signInValidator } from '../validators'
-const COUNT = 'count'
+
 export default {
-  Subscription: {
-    count: {
-      // Additional event labels can be passed to asyncIterator creation
-      subscribe(parent, args, { pubsub }, info) {
-        let num = 0
-
-        // setInterval(() => {
-        //   num++
-        //   pubsub.publish(COUNT, { count: num })
-        //   console.log('num', num)
-        // }, 1000)
-
-        return pubsub.asyncIterator([COUNT])
-      }
-    }
-  },
   Query: {
     async me(parent, args, { req }, info) {
       // TODO : projection, sanitization

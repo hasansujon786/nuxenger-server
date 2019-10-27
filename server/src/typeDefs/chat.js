@@ -1,6 +1,10 @@
 import { gql } from 'apollo-server-express'
 
 export default gql`
+  extend type Subscription {
+    chat(currentUserId: ID!): ChatSubscriptionPayload
+  }
+
   extend type Query {
     chat(chatId: String): Chat! @auth
   }
@@ -17,5 +21,10 @@ export default gql`
     lastMessage: Message
     createdAt: String!
     updatedAt: String!
+  }
+
+  type ChatSubscriptionPayload {
+    mutation: String!
+    data: Chat
   }
 `
