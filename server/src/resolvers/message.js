@@ -26,7 +26,12 @@ export default {
       // Values
       const { body, chatId } = value
       const { userId } = req.session
+
       const message = await Message.create({ body, chat: chatId, sender: userId })
+
+      // updat the lastMessage in Chat model
+      await Chat.findByIdAndUpdate(chatId, { lastMessage: message })
+
       pubsub.publish(`message-${chatId}`, { message: { mutation: 'NEW_MESSAGE', data: message } })
       return message
     }

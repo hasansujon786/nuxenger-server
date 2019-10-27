@@ -9,7 +9,7 @@
         size="sm"
         classNames="ml-2"
         tabindex="0"
-        :title="$store.getters['auth/authUser'].name"
+        :name="$store.getters['auth/authUser'].name"
       />
       <h1 class="font-bold text-3xl -mt-2 ml-3">{{ shwoRecent ? 'nuxanger' : 'active' }}</h1>
 

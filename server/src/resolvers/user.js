@@ -79,7 +79,10 @@ export default {
   },
   User: {
     async chats(user, args, ctx, info) {
-      return (await user.populate('chats').execPopulate()).chats
+      // return (await user.populate('chats').execPopulate()).chats
+      return (await user
+        .populate({ path: 'chats', options: { sort: { updatedAt: -1 } } })
+        .execPopulate()).chats
     }
   }
 }

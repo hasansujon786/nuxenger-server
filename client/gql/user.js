@@ -10,8 +10,10 @@ export const SIGN_IN_MUTATION = gql`
         id
         title
         lastMessage {
-          id
           body
+          sender {
+            name
+          }
         }
       }
     }
@@ -40,8 +42,10 @@ export const ME_QUERY = gql`
         id
         title
         lastMessage {
-          id
           body
+          sender {
+            name
+          }
         }
       }
     }

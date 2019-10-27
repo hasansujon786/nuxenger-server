@@ -26,12 +26,6 @@ body:not(.user-is-tabbing) textarea:focus {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
-.theme-list {
-  &:hover {
-    @apply bg-gray-200;
-  }
-}
-
 .flex-center {
   @apply flex justify-center items-center;
 }
@@ -69,4 +63,11 @@ body:not(.user-is-tabbing) textarea:focus {
 .ui-select input[type='checkbox'] {
   all: initial;
   opacity: 0;
+}
+
+/* THEME */
+.theme-list {
+  &:hover {
+    @apply bg-gray-200;
+  }
 }

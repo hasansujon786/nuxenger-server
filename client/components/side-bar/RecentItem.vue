@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     :to="`/chats/${chatId}`"
-    class="recent-item theme-list flex flex-no-wrap items-center cursor-pointer py-3 px-4"
+    class="recent-item flex flex-no-wrap items-center cursor-pointer py-3 px-4"
   >
     <avater classNames="mr-3" />
     <div class="flex-1 min-w-0">
@@ -13,8 +13,8 @@
           Tue
         </span>
       </div>
-      <div v-show="lastMsg" class="text-sm text-gray-700 truncate">
-        <span> <span class="text-blue">You:</span> {{ lastMsg }}</span>
+      <div v-if="lastMessage.body" class="text-sm text-gray-500 truncate">
+        <span> {{ senderName }}: {{ lastMessage.body }}</span>
       </div>
     </div>
   </nuxt-link>
@@ -22,6 +22,7 @@
 
 <script>
 import AvaterVue from '../ui-elements/Avater.vue'
+import { mapGetters } from 'vuex'
 export default {
   props: {
     title: {
@@ -32,7 +33,20 @@ export default {
       type: String,
       default: ''
     },
-    lastMsg: String
+    lastMessage: {
+      type: Object
+    }
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'auth/authUser'
+    }),
+    senderName() {
+      const { name } = this.lastMessage.sender
+      const spllietName = name.split(' ')[0]
+      // console.log(spllietName)
+      return this.currentUser.name === name ? 'You' : spllietName
+    }
   },
   components: {
     avater: AvaterVue
@@ -41,9 +55,7 @@ export default {
 </script>
 
 <style scoped>
-.recent-item {
-  &.active {
-    @apply bg-gray-200;
-  }
+.recent-item.nuxt-link-active {
+  @apply bg-gray-200;
 }
 </style>

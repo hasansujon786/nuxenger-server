@@ -4,7 +4,7 @@
       v-for="chat in chatList"
       :title="chat.title"
       :chatId="chat.id"
-      lastMsg="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus, laborum."
+      :lastMessage="chat.lastMessage || {}"
       :key="chat.id"
     />
   </ul>
