@@ -26,7 +26,7 @@ export default {
       // Validate user inputs
       const { error, value } = startGroupChatValidator(userId).validate(args, { abortEarly: false })
       if (error) {
-        const err = new ValidationError('StartChat validation failed.')
+        const err = new ValidationError('StartGroupChat validation failed.')
         err.joi = error
         throw err
       }

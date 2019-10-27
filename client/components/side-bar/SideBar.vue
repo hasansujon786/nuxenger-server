@@ -28,7 +28,7 @@
 
     <new-chat-dialog
       v-if="showNewChatDialog"
-      @onStartNewChat="startNewChat"
+      @onStartNewGroupChat="startNewGroupChat"
       class="mx-3 relative"
     />
 
@@ -56,7 +56,7 @@ import DropdownVue from '../ui-elements/Dropdown.vue'
 import RecentItemVue from './RecentItem.vue'
 import NewChatDialogVue from './NewChatDialog.vue'
 
-import { START_CHAT_MUTATION, CHAT_SUBSCRIPTION } from '@/gql'
+import { START_GROUP_CHAT_MUTATION, CHAT_SUBSCRIPTION } from '@/gql'
 
 export default {
   data() {
@@ -98,19 +98,19 @@ export default {
     toggleNewChatDialog() {
       this.showNewChatDialog = !this.showNewChatDialog
     },
-    async startNewChat({ name, id }) {
+    async startNewGroupChat({ name, id }) {
       this.toggleNewChatDialog()
       try {
         const { data } = await this.$apollo.mutate({
           // Query
-          mutation: START_CHAT_MUTATION,
+          mutation: START_GROUP_CHAT_MUTATION,
           variables: {
             title: name,
             userIds: [id]
           }
         })
       } catch (err) {
-        console.log('err in startNewChat', { err })
+        console.log('err in startNewGroupChat', { err })
       }
     }
   },

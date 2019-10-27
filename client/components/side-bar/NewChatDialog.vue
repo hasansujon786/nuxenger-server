@@ -10,7 +10,7 @@
       />
       <div class="mt-2 text-black">
         <li
-          @click="emitStartNewChat(user)"
+          @click="handleStartNewGroupChat(user)"
           v-for="user in filteredUsers"
           :user="user"
           :key="user.id"
@@ -51,8 +51,8 @@ export default {
     document.querySelector('.newChatDlgInput').focus()
   },
   methods: {
-    emitStartNewChat(user) {
-      this.$emit('onStartNewChat', user)
+    handleStartNewGroupChat(user) {
+      this.$emit('onStartNewGroupChat', user)
     }
   },
   apollo: {
