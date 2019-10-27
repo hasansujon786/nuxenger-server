@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { signInMutation, meQuery } from '../gql/user'
+import { SIGN_IN_MUTATION, SIGN_OUT_MUTATION, ME_QUERY, SIGN_UP_MUTATION } from '../gql'
 
 export const state = () => ({
   loading: true,
@@ -52,7 +52,13 @@ export const actions = {
   async signIn({ dispatch }, { email, password, path }) {
     try {
       // Call to the graphql mutation
-      const { data } = await signInMutation(this.$router.app, { email, password })
+      const { data } = await this.$router.app.$apollo.mutate({
+        mutation: SIGN_IN_MUTATION,
+        variables: {
+          email,
+          password
+        }
+      })
 
       if (data.signIn) {
         // set authUser & chatList & redirect
@@ -66,16 +72,11 @@ export const actions = {
     }
   },
   async signOut({ commit }) {
-    const { $apollo } = this.$router.app
     try {
-      const { data } = await $apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation {
-            signOut
-          }
-        `
+      const { data } = await this.$router.app.$apollo.mutate({
+        mutation: SIGN_OUT_MUTATION
       })
+
       if (data.signOut) {
         this.$router.push('/login')
         setTimeout(() => {
@@ -83,7 +84,7 @@ export const actions = {
         }, 500)
       }
     } catch (err) {
-      console.log({ err })
+      console.log('error in signOut', { err })
     }
   },
   async getAuthUserOnAppLoads({ dispatch }, { path }) {
@@ -91,8 +92,10 @@ export const actions = {
     // Runs on App first loads
     if (!getters.loading) return // If app isn't loadin then exit & stop executing
     try {
-      const { data } = await meQuery(this.$router.app)
-      console.log({ authUser: data.me })
+      const { data } = await this.$router.app.$apollo.query({
+        query: ME_QUERY
+      })
+      // console.log({ authUser: data.me })
 
       if (data.me) {
         // set authUser & chatList & redirect
@@ -110,19 +113,10 @@ export const actions = {
     }
   },
   async signUp({}, { email, password, username, fullname }) {
-    const { $apollo } = this.$router.app
     try {
       // Call to the graphql mutation
-      const { data } = await $apollo.mutate({
-        // Query
-        mutation: gql`
-          mutation($email: String!, $password: String!, $username: String!, $fullname: String!) {
-            signUp(email: $email, password: $password, username: $username, name: $fullname) {
-              id
-            }
-          }
-        `,
-        // Parameters
+      const { data } = await this.$router.app.$apollo.mutate({
+        mutation: SIGN_UP_MUTATION,
         variables: {
           email,
           password,

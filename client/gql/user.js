@@ -1,53 +1,49 @@
 import gql from 'graphql-tag'
 
-export const signInMutation = async ({ $apollo }, { email, password }) => {
-  console.log('from signInMutation')
-  return await $apollo.mutate({
-    // Query
-    mutation: gql`
-      mutation($email: String!, $password: String!) {
-        signIn(email: $email, password: $password) {
+export const SIGN_IN_MUTATION = gql`
+  mutation($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+      id
+      name
+      username
+      chats {
+        id
+        title
+        lastMessage {
           id
-          name
-          username
-          chats {
-            id
-            title
-            lastMessage {
-              id
-              body
-            }
-          }
+          body
         }
       }
-    `,
-    // Parameters
-    variables: {
-      email,
-      password
     }
-  })
-}
+  }
+`
+export const SIGN_OUT_MUTATION = gql`
+  mutation {
+    signOut
+  }
+`
+export const SIGN_UP_MUTATION = gql`
+  mutation($email: String!, $password: String!, $username: String!, $fullname: String!) {
+    signUp(email: $email, password: $password, username: $username, name: $fullname) {
+      id
+    }
+  }
+`
 
-export const meQuery = async ({ $apollo }) => {
-  console.log(' from meQuery')
-  return await $apollo.query({
-    query: gql`
-      query me {
-        me {
+export const ME_QUERY = gql`
+  query me {
+    me {
+      id
+      name
+      username
+      chats {
+        id
+        title
+        lastMessage {
           id
-          name
-          username
-          chats {
-            id
-            title
-            lastMessage {
-              id
-              body
-            }
-          }
+          body
         }
       }
-    `
-  })
-}
+    }
+  }
+`

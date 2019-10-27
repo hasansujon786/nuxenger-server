@@ -56,7 +56,7 @@ import DropdownVue from '../ui-elements/Dropdown.vue'
 import RecentItemVue from './RecentItem.vue'
 import NewChatDialogVue from './NewChatDialog.vue'
 
-import { startChat } from '@/gql'
+import { START_CHAT_MUTATION } from '@/gql'
 
 export default {
   data() {
@@ -100,12 +100,17 @@ export default {
     async startNewChat({ name, id }) {
       this.toggleNewChatDialog()
       try {
-        const { data } = await startChat({ $apollo: this.$apollo }, { title: name, userIds: [id] })
-        console.log('newChat', { data })
+        const { data } = await this.$apollo.mutate({
+          // Query
+          mutation: START_CHAT_MUTATION,
+          variables: {
+            title: name,
+            userIds: [id]
+          }
+        })
       } catch (err) {
         console.log('err in startNewChat', { err })
       }
-      console.log('new msg with', { name, id })
     }
   },
   components: {

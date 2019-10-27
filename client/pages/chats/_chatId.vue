@@ -13,7 +13,7 @@ import ChatBoxInputVue from '@/components/chat/ChatBoxInput.vue'
 import ChatWrapper from '@/components/chat/ChatWrapper.vue'
 import gql from 'graphql-tag'
 
-import { sendNewMsg } from '@/gql/message'
+import { SEND_MESSAGE_MUTATION, CHAT_QUERY } from '@/gql'
 import { scrollToBottomOfChatBox } from '@/utils'
 
 export default {
@@ -35,7 +35,14 @@ export default {
     async submitNewMsg(body) {
       const { chatId } = this.$route.params
       try {
-        const { data } = await sendNewMsg({ $apollo: this.$apollo }, { body, chatId })
+        const { data } = await this.$apollo.mutate({
+          // Query
+          mutation: SEND_MESSAGE_MUTATION,
+          variables: {
+            chatId,
+            body
+          }
+        })
       } catch (err) {
         console.log('error form submitNewMsg', { err })
       }
@@ -45,23 +52,7 @@ export default {
         // Call to the graphql mutation
         const { data } = await this.$apollo.query({
           // Query
-          query: gql`
-            query($chatId: String) {
-              chat(chatId: $chatId) {
-                id
-                title
-                messages {
-                  id
-                  body
-                  sender {
-                    id
-                    name
-                  }
-                }
-              }
-            }
-          `,
-          // Parameters
+          query: CHAT_QUERY,
           variables: {
             chatId: userId
           }
@@ -87,7 +78,7 @@ export default {
       // When a tag is added
       message: {
         query: gql`
-          subscription message($chatId: String!) {
+          subscription message($chatId: ID!) {
             message(chatId: $chatId) {
               mutation
               data {
