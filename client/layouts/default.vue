@@ -1,6 +1,12 @@
 <template>
   <div class="font-sans relative bg-gray-70">
-    <h1 class="mt-10 text-center text-3xl" v-show="loading && !error">Loading...</h1>
+    <div v-show="loading && !error" class="min-h-screen bg-gray-20 text-center overflow-y-scroll">
+      <div class="pt-40">
+        <h1 class="text-6xl vivify popInBottom">nuxernger</h1>
+      </div>
+      <p class="mt-10 text-gray-500 text-3xl vivify fadeIn">Loading...</p>
+    </div>
+
     <h1 class="mt-10 text-center text-3xl" v-show="!loading && error">Somethign went wrong</h1>
     <nuxt v-show="!loading" />
   </div>

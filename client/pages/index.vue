@@ -1,11 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gray-200">
-    <!-- <div class="text-center mt-40">
+  <div class="min-h-screen bg-gray-20 text-center overflow-y-scroll">
+    <div class="pt-40">
       <h1 class="text-6xl">nuxernger</h1>
-      <div v-if="authUser">
-        <h1 class="text-3xl">{{ authUser.name }}</h1>
-      </div>
-    </div> -->
+    </div>
+    <p class="mt-10 text-gray-500 text-3xl">Loading...</p>
   </div>
 </template>
 
