@@ -1,6 +1,6 @@
 import Joi from '@hapi/joi'
 
-export const startChatValidator = userId =>
+export const startGroupChatValidator = userId =>
   Joi.object({
     title: Joi.string()
       .min(4)

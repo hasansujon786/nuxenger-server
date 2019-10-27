@@ -10,7 +10,7 @@ export default gql`
   }
 
   extend type Mutation {
-    startChat(title: String, userIds: [ID!]!): Chat @auth
+    startGroupChat(title: String, userIds: [ID!]!): Chat @auth
   }
 
   type Chat {

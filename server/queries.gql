@@ -25,7 +25,7 @@ query {
 
 # Chat
 mutation {
-  startChat(userIds: ["5d9f6d716ce04105d81c11f2"]) {
+  startGroupChat(userIds: ["5d9f6d716ce04105d81c11f2"]) {
     lastMessage {
       body
     }

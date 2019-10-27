@@ -1,6 +1,6 @@
 import { ValidationError, UserInputError } from 'apollo-server-express'
 // Custom modules
-import { startChatValidator } from '../validators'
+import { startGroupChatValidator } from '../validators'
 import { User, Chat, Message } from '../models'
 
 export default {
@@ -19,12 +19,12 @@ export default {
     }
   },
   Mutation: {
-    async startChat(parent, args, { req, pubsub }, info) {
+    async startGroupChat(parent, args, { req, pubsub }, info) {
       const { userId } = req.session
       const { title, userIds } = args
 
       // Validate user inputs
-      const { error, value } = startChatValidator(userId).validate(args, { abortEarly: false })
+      const { error, value } = startGroupChatValidator(userId).validate(args, { abortEarly: false })
       if (error) {
         const err = new ValidationError('StartChat validation failed.')
         err.joi = error
