@@ -8,3 +8,19 @@ export const SEND_MESSAGE_MUTATION = gql`
     }
   }
 `
+
+export const MESSAGE_SUBSCRIPTION = gql`
+  subscription message($chatId: ID!) {
+    message(chatId: $chatId) {
+      mutation
+      data {
+        id
+        body
+        sender {
+          id
+          name
+        }
+      }
+    }
+  }
+`

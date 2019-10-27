@@ -25,3 +25,19 @@ export const CHAT_QUERY = gql`
     }
   }
 `
+
+export const CHAT_SUBSCRIPTION = gql`
+  subscription chat($currentUserId: ID!) {
+    chat(currentUserId: $currentUserId) {
+      mutation
+      data {
+        id
+        title
+        lastMessage {
+          body
+          id
+        }
+      }
+    }
+  }
+`

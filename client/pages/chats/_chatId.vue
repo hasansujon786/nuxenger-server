@@ -13,7 +13,7 @@ import ChatBoxInputVue from '@/components/chat/ChatBoxInput.vue'
 import ChatWrapper from '@/components/chat/ChatWrapper.vue'
 import gql from 'graphql-tag'
 
-import { SEND_MESSAGE_MUTATION, CHAT_QUERY } from '@/gql'
+import { SEND_MESSAGE_MUTATION, CHAT_QUERY, MESSAGE_SUBSCRIPTION } from '@/gql'
 import { scrollToBottomOfChatBox } from '@/utils'
 
 export default {
@@ -77,21 +77,7 @@ export default {
     $subscribe: {
       // When a tag is added
       message: {
-        query: gql`
-          subscription message($chatId: ID!) {
-            message(chatId: $chatId) {
-              mutation
-              data {
-                id
-                body
-                sender {
-                  id
-                  name
-                }
-              }
-            }
-          }
-        `,
+        query: MESSAGE_SUBSCRIPTION,
         variables() {
           return {
             chatId: this.$route.params.chatId

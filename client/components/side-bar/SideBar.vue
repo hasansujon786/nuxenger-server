@@ -56,7 +56,7 @@ import DropdownVue from '../ui-elements/Dropdown.vue'
 import RecentItemVue from './RecentItem.vue'
 import NewChatDialogVue from './NewChatDialog.vue'
 
-import { START_CHAT_MUTATION } from '@/gql'
+import { START_CHAT_MUTATION, CHAT_SUBSCRIPTION } from '@/gql'
 
 export default {
   data() {
@@ -76,7 +76,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      signOut: 'auth/signOut'
+      signOut: 'auth/signOut',
+      updateChatListOnStore: 'chat/updateChatList'
     }),
     handleDropdownClick(dropdownOption) {
       console.log('clicked', dropdownOption)
@@ -110,6 +111,25 @@ export default {
         })
       } catch (err) {
         console.log('err in startNewChat', { err })
+      }
+    }
+  },
+  apollo: {
+    // Subscriptions
+    $subscribe: {
+      // When a tag is added
+      chat: {
+        query: CHAT_SUBSCRIPTION,
+        variables() {
+          return {
+            currentUserId: this.$store.getters['auth/authUser'].id
+          }
+        },
+        result({ data }) {
+          if (data.chat) {
+            this.updateChatListOnStore(data.chat)
+          }
+        }
       }
     }
   },
