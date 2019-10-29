@@ -4,11 +4,20 @@
     :class="props.classNames"
     :style="props.styleProps"
   >
-    <div class="dropdown__tail absolute"></div>
-    <ul class="dropdown__list-wrapper pb-1 border-b" v-for="(drop, dI) in props.dropdown" :key="dI">
-      <li class="border-b py-1 px-4">{{ drop.title }}</li>
+    <div class="dropdown__tail absolute bg-gray-100"></div>
+    <ul
+      class="dropdown__list-wrapper rounded-b truncate border-b"
+      v-for="(drop, dI) in props.dropdown"
+      :key="dI"
+    >
       <li
-        class="dropdown__list-items"
+        class="border-b ui-text-small bg-gray-100 text-gray-500 px-3 h-6 rounded-t"
+        style="line-height: 24px;"
+      >
+        {{ drop.title }}
+      </li>
+      <li
+        class="dropdown__list-items ui-text-small text-gray-700 py-1 px-3"
         v-for="(option, i) in drop.options"
         @click="listeners['option-click'](option)"
         :key="i"
@@ -52,7 +61,7 @@ export default {
   }
 
   &__list-items {
-    padding: 3px 1rem;
+    @apply border-dashed;
     cursor: pointer;
     &:hover {
       color: white;

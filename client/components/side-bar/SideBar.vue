@@ -12,25 +12,32 @@
         :name="$store.getters['auth/authUser'].name"
       />
       <h1 class="font-bold text-3xl -mt-2 ml-3">{{ shwoRecent ? 'nuxanger' : 'active' }}</h1>
-
-      <icon-btn @click="toggleNewChatDialog" class="ml-auto" icon="plus"></icon-btn>
+      <div class="relative ml-auto">
+        <icon-btn @click="showNewChatDropdown = !showNewChatDropdown" icon="plus" />
+        <dropdown
+          v-if="showNewChatDropdown"
+          :dropdown="newChatDropdownOptions"
+          @option-click="handleDropdownClick"
+          styleProps="top: 3rem; left: -5px"
+        />
+      </div>
       <icon-btn @click="shwoRecent = !shwoRecent" class="ml-3" title="Active Users" icon="zap" />
       <div class="relative ml-3">
-        <icon-btn @click="showDropdown = !showDropdown" icon="menu" title="Toggle Recents" />
+        <icon-btn
+          @click="showSettingDropdown = !showSettingDropdown"
+          icon="menu"
+          title="Toggle Recents"
+        />
         <dropdown
-          :dropdown="dropdown"
-          v-if="showDropdown"
+          v-if="showSettingDropdown"
+          :dropdown="settingDropdownOptions"
           @option-click="handleDropdownClick"
           styleProps="top: 3rem; left: -5px"
         />
       </div>
     </div>
 
-    <new-chat-dialog
-      v-if="showNewChatDialog"
-      @onStartNewGroupChat="startNewGroupChat"
-      class="mx-3 relative"
-    />
+    <new-chat-dialog v-if="true" @onStartNewGroupChat="startNewGroupChat" class="mx-3 relative" />
 
     <!-- search -->
     <recent-search class="mx-3" />
@@ -62,14 +69,21 @@ export default {
   data() {
     return {
       showNewChatDialog: false,
-      dropdown: [
+      showSettingDropdown: false,
+      settingDropdownOptions: [
         {
           title: 'Settings',
-          options: ['secret', 'logout']
+          options: ['Secret', 'Logout']
+        }
+      ],
+      showNewChatDropdown: false,
+      newChatDropdownOptions: [
+        {
+          title: 'New',
+          options: ['New DM', 'New Group', 'New ChatRoom']
         }
       ],
       shwoRecent: true,
-      showDropdown: false,
       me:
         'https://lh3.googleusercontent.com/-DoXIeeE3Xdg/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcqk8rkbQb4n-Bd-9lUetaYfj_97g/photo.jpg?sz=46'
     }
