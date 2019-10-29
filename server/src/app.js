@@ -28,7 +28,7 @@ const IN_PROD = NODE_ENV === 'production'
 // main app
 ;(async () => {
   try {
-    await mongoose.connect(MONGO_URI, { useNewUrlParser: true })
+    await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
     const app = express()
 
     // Headers & CORS Config

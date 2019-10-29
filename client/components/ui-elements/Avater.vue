@@ -2,7 +2,7 @@
   <!-- style="background-image: url(https://randomuser.me/api/portraits/women/33.jpg)" -->
   <a
     :class="props.classNames + ' ' + props.size"
-    class="avater bg-gray-400 rounded-full text-black truncate text-lg"
+    class="avater bg-gray-400 rounded-full text-black truncate text-lg inline-block"
     role="button"
     v-bind="data.attrs"
   >

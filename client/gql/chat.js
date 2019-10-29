@@ -17,6 +17,7 @@ export const CHAT_QUERY = gql`
       messages {
         id
         body
+        createdAt
         sender {
           id
           name

@@ -6,7 +6,7 @@
     <avater classNames="mr-3" />
     <div class="flex-1 min-w-0">
       <div class="flex justify-between mb-1">
-        <h2 class="font-semibold text-sm">
+        <h2 class="font-medium text-sm capitalize">
           {{ title }}
         </h2>
         <span class="text-sm">

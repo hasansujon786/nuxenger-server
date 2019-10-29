@@ -1,5 +1,5 @@
 <template>
-  <div class="font-sans relative bg-gray-70">
+  <div class="font-sans relative min-h-screen">
     <div v-show="loading && !error" class="min-h-screen bg-gray-20 text-center overflow-y-scroll">
       <div class="pt-40">
         <h1 class="text-6xl vivify popInBottom">nuxernger</h1>
@@ -45,3 +45,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.__nuxt-error-page {
+  svg {
+    display: inline;
+  }
+}
+</style>

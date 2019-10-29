@@ -16,6 +16,7 @@ export const MESSAGE_SUBSCRIPTION = gql`
       data {
         id
         body
+        createdAt
         sender {
           id
           name

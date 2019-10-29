@@ -3,7 +3,7 @@
     class="px-4 flex flex-col overflow-y-scroll w-full flex-auto bg-no-repeat bg-center bg-cover"
   >
     <!-- style="background-image: url(https://raw.githubusercontent.com/telegramdesktop/tdesktop/dev/Telegram/Resources/art/bg.jpg)" -->
-    <capsule classNames="mt-3 self-center">End</capsule>
+    <capsule v-if="msgs && msgs.length > 10" classNames="mt-3 self-center">End</capsule>
     <transition-group mode="out-in" name="chat-item">
       <chat-item
         v-for="msg in msgs"
