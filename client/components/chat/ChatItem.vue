@@ -25,7 +25,7 @@
 <script>
 import { textModification } from '../../mixins'
 import ChatBubble from './ChatBubble.vue'
-import Avater from '@/components/ui-elements/Avater.vue'
+import Avater from '@/components/base/Avater.vue'
 export default {
   computed: {
     isUser() {

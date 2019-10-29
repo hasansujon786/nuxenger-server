@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import AvaterVue from '@/components/ui-elements/Avater.vue'
+import AvaterVue from '@/components/base/Avater.vue'
 
 export default {
   props: ['user', 'lastTime'],

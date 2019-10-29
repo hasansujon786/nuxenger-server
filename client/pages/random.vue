@@ -154,7 +154,7 @@
 </template>
 
 <script>
-import SelectVue from '../components/ui-elements/Select.vue'
+import SelectVue from '../components/base/Select.vue'
 export default {
   // middleware: 'auth'
   data() {

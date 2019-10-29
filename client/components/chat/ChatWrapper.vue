@@ -11,7 +11,7 @@
 
 <script>
 import SideBarVue from '@/components/side-bar/SideBar.vue'
-import IconBtnVue from '@/components/ui-elements/IconBtn.vue'
+import IconBtnVue from '@/components/base/IconBtn.vue'
 
 export default {
   components: {

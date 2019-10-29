@@ -18,7 +18,7 @@
 
 <script>
 import ChatItemVue from './ChatItem.vue'
-import CapsuleVue from '../ui-elements/Capsule.vue'
+import CapsuleVue from '../base/Capsule.vue'
 export default {
   props: {
     msgs: Array,

@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import InputVue from '@/components/ui-elements/Input.vue'
-import ButtonVue from '@/components/ui-elements/Button.vue'
+import InputVue from '@/components/base/Input.vue'
+import ButtonVue from '@/components/base/Button.vue'
 import FormWrapper from '@/components/auth/FormWrapper.vue'
 
 export default {

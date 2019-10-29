@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import AvaterVue from '@/components/ui-elements/Avater.vue'
-import InputVue from '../ui-elements/Input.vue'
-import ButtonVue from '@/components/ui-elements/Button.vue'
+import AvaterVue from '@/components/base/Avater.vue'
+import InputVue from '../base/Input.vue'
+import ButtonVue from '@/components/base/Button.vue'
 import ActiveItem from './ActiveItem.vue'
-import SelectVue from '@/components/ui-elements/Select.vue'
+import SelectVue from '@/components/base/Select.vue'
 import gql from 'graphql-tag'
 
 export default {

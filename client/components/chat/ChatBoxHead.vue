@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import IconBtnVue from '../ui-elements/IconBtn.vue'
+import IconBtnVue from '../base/IconBtn.vue'
 export default {
   props: {
     title: {

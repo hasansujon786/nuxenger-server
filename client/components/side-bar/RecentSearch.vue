@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import InputVue from '../ui-elements/Input.vue'
+import InputVue from '../base/Input.vue'
 
 export default {
   data() {

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import AvaterVue from '../ui-elements/Avater.vue'
+import AvaterVue from '../base/Avater.vue'
 import { mapGetters } from 'vuex'
 export default {
   props: {
