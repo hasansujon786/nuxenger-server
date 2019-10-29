@@ -17,8 +17,8 @@ export const textModification = {
       return timeStr => {
         const dateobj = new Date(parseInt(timeStr))
         const time = moment(dateobj, 'YYYYMMDD').fromNow()
-        console.log({ dateobj })
-        console.log({ time })
+        // console.log({ dateobj })
+        // console.log({ time })
         return time
       }
     }

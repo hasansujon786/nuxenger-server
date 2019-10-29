@@ -1,0 +1,12 @@
+.popup {
+  @apply bg-white z-50 drop-shadow rounded;
+
+  &__body {
+    @apply mx-3 my-2;
+  }
+
+  &__title {
+    line-height: 24px;
+    @apply border-b font-medium text-xs bg-gray-100 text-gray-500 px-3 h-6 rounded-t capitalize;
+  }
+}
