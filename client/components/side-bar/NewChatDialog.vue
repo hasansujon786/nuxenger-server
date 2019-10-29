@@ -3,19 +3,19 @@
     <div class="popup__title">new group</div>
     <div class="popup__body relative">
       <form>
-        <ui-input
+        <base-input
           v-model="search"
-          classNames="firstInput rounded-full bg-gray-100 border"
+          class="firstInput rounded-full bg-gray-100 border"
           type="search"
           required
           placeholder="Group name"
         />
         <div class="mt-3">
-          <ui-input
+          <base-input
             @focus="toggleContactList"
             @blur="toggleContactList"
             v-model="search"
-            classNames=" rounded-full bg-gray-100 border"
+            class="rounded-full bg-gray-100 border"
             type="search"
             required
             placeholder="To :"
@@ -100,7 +100,7 @@ export default {
   components: {
     ActiveItem,
     avater: AvaterVue,
-    uiInput: InputVue,
+    baseInput: InputVue,
     uiButton: ButtonVue,
     uiSelect: SelectVue
   }

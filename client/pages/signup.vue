@@ -3,37 +3,37 @@
     <form-wrapper>
       <form @submit.prevent="handleSubmit" class="w-full text-center">
         <h3 class="text-4xl font-bold">Sign up</h3>
-        <ui-input
+        <base-input
           v-model="signUp.username"
           classNames="mt-3 rounded-full bg-gray-100 border"
           type="text"
           required
           placeholder="Username"
-        ></ui-input>
+        ></base-input>
 
-        <ui-input
+        <base-input
           v-model="signUp.fullname"
           classNames="mt-3 rounded-full bg-gray-100 border"
           type="text"
           required
           placeholder="Full name"
-        ></ui-input>
+        ></base-input>
 
-        <ui-input
+        <base-input
           required
           v-model="signUp.email"
           classNames="mt-3 rounded-full bg-gray-100 border"
           type="email"
           placeholder="Email"
-        ></ui-input>
+        ></base-input>
 
-        <ui-input
+        <base-input
           v-model="signUp.password"
           classNames="mt-3 rounded-full bg-gray-100 border"
           type="password"
           required
           placeholder="Password"
-        ></ui-input>
+        ></base-input>
 
         <ui-button classNames="w-full mt-4">Sign Up</ui-button>
         <p class="mt-6 text-sm text-gray-600">
@@ -76,7 +76,7 @@ export default {
   },
   components: {
     formWrapper: FormWrapper,
-    uiInput: InputVue,
+    baseInput: InputVue,
     uiButton: ButtonVue
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="w-full">
-    <ui-input
+    <base-input
       v-model="search"
-      classNames="mt-3 rounded-full bg-gray-200"
+      class="mt-3 rounded-full bg-gray-200"
       type="search"
       required
       placeholder="Search people..."
@@ -20,7 +20,7 @@ export default {
     }
   },
   components: {
-    uiInput: InputVue
+    baseInput: InputVue
   }
 }
 </script>
