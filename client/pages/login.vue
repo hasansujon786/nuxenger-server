@@ -1,12 +1,12 @@
 <template>
   <div class="min-h-screen pt-16">
     <form-wrapper>
-      <form @submit.prevent="handleSubmit" class="w-full text-center">
+      <form @submit.prevent="handleSignInSubmit" class="w-full text-center">
         <h3 class="text-4xl font-bold">Sign in</h3>
         <base-input
           v-model="signin.email"
           placeholder="Email"
-          classNames="mt-3 rounded-full bg-gray-100 border"
+          class="mt-3 rounded-full bg-gray-100 border"
           type="email"
           border
           required
@@ -15,7 +15,7 @@
         <base-input
           v-model="signin.password"
           placeholder="Password"
-          classNames="mt-3 rounded-full bg-gray-100 border"
+          class="mt-3 rounded-full bg-gray-100 border"
           type="password"
           required
         ></base-input>
@@ -50,7 +50,7 @@ export default {
   mounted() {},
 
   methods: {
-    handleSubmit() {
+    handleSignInSubmit() {
       const { email, password } = this.signin
       if (!email && !password) return
       this.$store.dispatch('auth/signIn', { email, password, path: this.$route.path })

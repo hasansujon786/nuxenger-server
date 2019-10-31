@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-wrap items-start content-start border-r border-gray-400 h-full"
+    class="flex flex-wrap items-start content-start border-r border-gray-400 h-full relative"
     style="width: 400px"
   >
     <!-- head -->
@@ -36,9 +36,11 @@
         />
       </div>
     </div>
-
-    <new-chat-dialog v-if="true" @onStartNewGroupChat="startNewGroupChat" class="mx-3 relative" />
-
+    <div class="w-full">
+      <div class="absolute w-full px-3">
+        <new-chat-dialog v-if="showNewChatDialog" @submit="startNewGroupChat" />
+      </div>
+    </div>
     <!-- search -->
     <recent-search class="mx-3" />
 
@@ -95,14 +97,20 @@ export default {
     }),
     handleDropdownClick(dropdownOption) {
       console.log('clicked', dropdownOption)
-      this.showDropdown = false
-      switch (dropdownOption) {
+      this.showNewChatDropdown = false
+      this.showSettingDropdown = false
+
+      switch (dropdownOption.toLowerCase()) {
         case 'logout':
           this.signOut()
           break
 
         case 'secret':
           this.$router.push('/secret')
+          break
+
+        case 'new group':
+          this.toggleNewChatDialog()
           break
 
         default:
@@ -112,15 +120,15 @@ export default {
     toggleNewChatDialog() {
       this.showNewChatDialog = !this.showNewChatDialog
     },
-    async startNewGroupChat({ name, id }) {
+    async startNewGroupChat({ title, userIds }) {
       this.toggleNewChatDialog()
       try {
         const { data } = await this.$apollo.mutate({
           // Query
           mutation: START_GROUP_CHAT_MUTATION,
           variables: {
-            title: name,
-            userIds: [id]
+            title,
+            userIds
           }
         })
       } catch (err) {

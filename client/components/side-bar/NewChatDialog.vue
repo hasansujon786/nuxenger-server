@@ -1,42 +1,67 @@
 <template>
-  <div class="popup w-full absolute top-0">
+  <div class="popup w-full">
     <div class="popup__title">new group</div>
-    <div class="popup__body relative">
-      <form>
-        <base-input
-          v-model="search"
-          class="firstInput rounded-full bg-gray-100 border"
-          type="search"
-          required
-          placeholder="Group name"
-        />
-        <div class="mt-3">
+    <div class="popup__body py-2">
+      <form @submit.prevent="handleSubmit">
+        <div class="flex">
           <base-input
-            @focus="toggleContactList"
-            @blur="toggleContactList"
-            v-model="search"
-            class="rounded-full bg-gray-100 border"
-            type="search"
             required
-            placeholder="To :"
+            type="text"
+            id="firstInput"
+            @focus="showContactList = false"
+            placeholder="Group name "
+            v-model="title"
+            class="rounded-full bg-gray-100 border"
           />
+          <ui-button class="ml-2">Create</ui-button>
+        </div>
+        <div class="mt-4 relative">
+          <base-input
+            type="text"
+            placeholder="To :"
+            v-model="search"
+            @focus="showContactList = true"
+            class="rounded-full bg-gray-100 border"
+            tabindex="0"
+          />
+          <!-- @blur="toggleContactList" -->
           <!-- Contact List -->
-          <ul class="mt-1 absolute w-full text-black popup" v-show="!true">
+          <ul class="mt-1 absolute w-full text-black popup" v-show="showContactList">
             <li
-              @click="pushAUser(user)"
+              v-for="user in selectedUsers"
+              :user="user"
+              :key="user.id"
+              class="theme-list flex flex-no-wrap items-center cursor-pointer px-3 py-2"
+            >
+              <div @click="user.selected = false" class="flex flex-1">
+                <avater size="xs" classNames="mr-3" :name="user.name" img="" />
+                <h2 class="text-sm">{{ user.name }}</h2>
+              </div>
+
+              <base-select classNames="">
+                <input v-model="user.selected" type="checkbox" />
+              </base-select>
+            </li>
+
+            <hr class="my-4 border-gray-300" v-show="selectedUsers.length" />
+            <!-- ------------------------------------------------- -->
+            <li
               v-for="user in filteredUsers"
               :user="user"
               :key="user.id"
-              class="theme-list rounded-lg flex flex-no-wrap items-center cursor-pointer px-2 py-2"
+              class="theme-list flex flex-no-wrap items-center cursor-pointer px-3 py-2"
             >
-              <avater size="xs" classNames="mr-3" :name="user.name" img="" />
-              <div class="flex flex-1 justify-between">
+              <div @click="user.selected = true" class="flex flex-1">
+                <avater size="xs" classNames="mr-3" :name="user.name" img="" />
                 <h2 class="text-sm">{{ user.name }}</h2>
               </div>
+
+              <base-select classNames="">
+                <input v-model="user.selected" type="checkbox" />
+              </base-select>
             </li>
           </ul>
         </div>
-        <ui-button classNames="w-full mt-3 bg-gray-300 text-gray-500">Create</ui-button>
       </form>
     </div>
   </div>
@@ -53,37 +78,44 @@ import gql from 'graphql-tag'
 export default {
   data() {
     return {
+      title: '',
       search: '',
       showContactList: false,
-      users: [],
-      newCha: {
-        title: '',
-        userNames: '',
-        usersIds: []
-      }
+      users: []
     }
   },
   computed: {
+    selectedUsers() {
+      return this.users.filter(user => user.selected)
+    },
+    notSelected() {
+      return this.users.filter(user => !user.selected)
+    },
     filteredUsers() {
-      return this.users.filter(
+      return this.notSelected.filter(
         user => user.name.includes(this.search) || user.username.includes(this.search)
       )
     }
   },
 
   mounted() {
-    // document.querySelector('.firstInput').focus()
+    document.getElementById('firstInput').focus()
   },
   methods: {
-    pushAUser(user) {
-      // this.newChat.usersIds.push(user)
-      console.log('focked')
-      // console.log(user)
-      // this.$emit('onStartNewGroupChat', user)
-    },
-    toggleContactList(e) {
-      console.log(e)
+    toggleContactList() {
       this.showContactList = !this.showContactList
+    },
+    handleSubmit() {
+      if (this.title && this.selectedUsers.length) {
+        const userIds = this.selectedUsers.map(user => {
+          // unselect the user
+          user.selected = false
+          return user.id
+        })
+        this.$emit('submit', { title: this.title, userIds })
+      } else {
+        console.log('input is empty')
+      }
     }
   },
   apollo: {
@@ -102,7 +134,7 @@ export default {
     avater: AvaterVue,
     baseInput: InputVue,
     uiButton: ButtonVue,
-    uiSelect: SelectVue
+    baseSelect: SelectVue
   }
 }
 </script>

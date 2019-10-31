@@ -5,7 +5,7 @@
         <h3 class="text-4xl font-bold">Sign up</h3>
         <base-input
           v-model="signUp.username"
-          classNames="mt-3 rounded-full bg-gray-100 border"
+          class="mt-3 rounded-full bg-gray-100 border"
           type="text"
           required
           placeholder="Username"
@@ -13,7 +13,7 @@
 
         <base-input
           v-model="signUp.fullname"
-          classNames="mt-3 rounded-full bg-gray-100 border"
+          class="mt-3 rounded-full bg-gray-100 border"
           type="text"
           required
           placeholder="Full name"
@@ -22,14 +22,14 @@
         <base-input
           required
           v-model="signUp.email"
-          classNames="mt-3 rounded-full bg-gray-100 border"
+          class="mt-3 rounded-full bg-gray-100 border"
           type="email"
           placeholder="Email"
         ></base-input>
 
         <base-input
           v-model="signUp.password"
-          classNames="mt-3 rounded-full bg-gray-100 border"
+          class="mt-3 rounded-full bg-gray-100 border"
           type="password"
           required
           placeholder="Password"

@@ -3,7 +3,8 @@
     <div class="pt-40">
       <h1 class="text-6xl">nuxernger</h1>
     </div>
-    <p class="mt-10 text-gray-500 text-3xl">Loading...</p>
+    <p class="mt-10 text-gray-500 text-2xl">Home Page</p>
+    <a href="/" class="text-green-600 hover:underline m-3">Reload</a>
   </div>
 </template>
 
