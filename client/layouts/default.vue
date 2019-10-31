@@ -1,25 +1,26 @@
 <template>
   <div class="font-sans relative min-h-screen">
-    <div v-show="loading && !error" class="min-h-screen bg-gray-20 text-center overflow-y-scroll">
-      <div class="pt-40">
-        <h1 class="text-6xl vivify popInBottom">nuxernger</h1>
-      </div>
-      <p class="mt-10 text-gray-500 text-3xl vivify fadeIn">Loading...</p>
+    <div v-if="!loading && error">
+      <h1 class="text-4xl">ERROR</h1>
+      <h1 class="text-xl">{{ errorMsg }}</h1>
     </div>
-
-    <h1 class="mt-10 text-center text-3xl" v-show="!loading && error">Somethign went wrong</h1>
-    <nuxt v-show="!loading" />
+    <nx-loading v-if="loading" />
+    <div v-else>
+      <nuxt />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import LoadingVue from '@/components/auth/Loading.vue'
 
 export default {
   computed: {
     ...mapGetters({
       error: 'auth/error',
-      loading: 'auth/loading'
+      loading: 'auth/loading',
+      errorMsg: 'auth/errorMsg'
     })
   },
   mounted() {
@@ -42,6 +43,9 @@ export default {
     }
 
     window.addEventListener('keydown', handleFirstTab)
+  },
+  components: {
+    nxLoading: LoadingVue
   }
 }
 </script>
