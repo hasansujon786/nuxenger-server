@@ -1,22 +1,30 @@
-import gql from 'graphql-tag'
 import { SIGN_IN_MUTATION, SIGN_OUT_MUTATION, ME_QUERY, SIGN_UP_MUTATION } from '../gql'
 
 export const state = () => ({
-  loading: true,
+  loading: false,
   error: false,
+  errorMsg: '',
   authUser: {},
   authPagOnfirstLoad: false
 })
 
 // mutations ==============================
 export const mutations = {
-  _setAuthUser(state, newAuthUser) {
+  _SET_AUTH_USER(state, newAuthUser) {
     state.authUser = newAuthUser
   },
-  _setLoading(state, bool) {
+  _SET_LOADING(state, bool) {
     state.loading = bool
   },
-  _authPagOnfirstLoad(state, bool) {
+  _DISPLAY_ERROR(state, { err, msg }) {
+    state.error = true
+    state.errorMsg = msg
+  },
+  _DISMISS_ERROR(state) {
+    state.error = false
+    state.errorMsg = ''
+  },
+  _AUTH_PAGE_ON_FIRST_LOAD(state, bool) {
     state.authPagOnfirstLoad = bool
   }
 }
@@ -29,17 +37,17 @@ export const actions = {
       // Auth Middleware (token && authUser === null && loading)
       console.info('redirecting for invalid token & first load')
       this.$router.push('/login')
-      commit('_setLoading', bool)
+      commit('_SET_LOADING', bool)
     }
 
-    commit('_setLoading', bool)
+    commit('_SET_LOADING', bool)
   },
   authPagOnfirstLoad({ commit }, bool) {
     // Auth Middleware (token && authUser === null && loading)
-    commit('_authPagOnfirstLoad', bool)
+    commit('_AUTH_PAGE_ON_FIRST_LOAD', bool)
   },
   setAuthUser({ commit }, { id, name, username, chats, path }) {
-    commit('_setAuthUser', { id, name, username })
+    commit('_SET_AUTH_USER', { id, name, username })
 
     this.commit('chat/_getChatList', chats)
     if (path === '/' || path === '/chats' || path === '/login') {
@@ -52,6 +60,7 @@ export const actions = {
   async signIn({ dispatch }, { email, password, path }) {
     try {
       // Call to the graphql mutation
+      dispatch('setLoading', true)
       const { data } = await this.$router.app.$apollo.mutate({
         mutation: SIGN_IN_MUTATION,
         variables: {
@@ -60,15 +69,14 @@ export const actions = {
         }
       })
 
+      setTimeout(() => dispatch('setLoading', false), 1000)
       if (data.signIn) {
         // set authUser & chatList & redirect
         dispatch('setAuthUser', { ...data.signIn, path })
-      } else {
-        this.$router.push('/login')
       }
     } catch (err) {
       this.$router.push('/login')
-      console.log({ err })
+      dispatch('displayError', { err, msg: 'Error in signIn' })
     }
   },
   async signOut({ commit }) {
@@ -80,36 +88,30 @@ export const actions = {
       if (data.signOut) {
         this.$router.push('/login')
         setTimeout(() => {
-          commit('_setAuthUser', null)
+          commit('_SET_AUTH_USER', null)
         }, 500)
       }
     } catch (err) {
-      console.log('error in signOut', { err })
+      dispatch('displayError', { err, msg: 'Error in signOut' })
     }
   },
   async getAuthUserOnAppLoads({ dispatch }, { path }) {
     console.info('app first load from vuex')
     // Runs on App first loads
-    if (!getters.loading) return // If app isn't loadin then exit & stop executing
     try {
       const { data } = await this.$router.app.$apollo.query({
         query: ME_QUERY
       })
-      // console.log({ authUser: data.me })
 
       if (data.me) {
         // set authUser & chatList & redirect
         dispatch('setAuthUser', { ...data.me, path })
-
-        setTimeout(() => dispatch('setLoading', false), 100)
       } else {
         this.$router.push('/login')
-        dispatch('setLoading', false)
       }
     } catch (err) {
       this.$router.push('/login')
-      dispatch('setLoading', false)
-      console.log({ err })
+      dispatch('displayerror', { err, msg: 'error in getauthuseronapploads' })
     }
   },
   async signUp({}, { email, password, username, fullname }) {
@@ -130,8 +132,18 @@ export const actions = {
 
       this.$router.push('/login')
     } catch (err) {
-      console.log({ err })
+      dispatch('displayError', { err, msg: 'Error in signUp' })
     }
+  },
+  displayError({ commit }, errorObj) {
+    console.log(JSON.stringify(errorObj.err, null, 4))
+    // console.dir(errorObj.err, { depth: null })
+    // console.log(errorObj.err)
+    commit('_SET_LOADING', false)
+    commit('_DISPLAY_ERROR', errorObj)
+  },
+  dismissError({ commit }) {
+    commit('_DISMISS_ERROR')
   }
 }
 
@@ -139,5 +151,6 @@ export const actions = {
 export const getters = {
   authUser: state => state.authUser,
   loading: state => state.loading,
-  error: state => state.error
+  error: state => state.error,
+  errorMsg: state => state.errorMsg
 }

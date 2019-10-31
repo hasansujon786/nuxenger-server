@@ -3,6 +3,7 @@
     <div v-if="!loading && error">
       <h1 class="text-4xl">ERROR</h1>
       <h1 class="text-xl">{{ errorMsg }}</h1>
+      <button @click="$store.dispatch('auth/dismissError')">X</button>
     </div>
     <nx-loading v-if="loading" />
     <div v-else>
