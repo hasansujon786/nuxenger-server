@@ -7,6 +7,7 @@ export default gql`
 
   extend type Mutation {
     sendMessage(chatId: String!, body: String!): Message @auth
+    deleteAMessage(messageId: ID!): Message @auth
   }
 
   type Message {

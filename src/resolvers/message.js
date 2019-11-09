@@ -34,6 +34,18 @@ export default {
 
       pubsub.publish(`message-${chatId}`, { message: { mutation: 'NEW_MESSAGE', data: message } })
       return message
+    },
+    async deleteAMessage(parent, { messageId }, { pubsub }, info) {
+      // Delete the given message
+      const message = await Message.findByIdAndRemove(messageId)
+      if (!message) {
+        throw new UserInputError('Message Id is invalid.')
+      }
+
+      pubsub.publish(`message-${message.chat}`, {
+        message: { mutation: 'DELETE_MESSAGE', data: message }
+      })
+      return message
     }
   },
   Message: {
