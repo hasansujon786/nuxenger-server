@@ -54,6 +54,28 @@ export default {
       })
 
       return chat
+    },
+    async deleteAGroupChat(parent, { chatId }, { pubsub }, info) {
+      // Delete the given chatGroup
+      const chat = await Chat.findByIdAndDelete(chatId)
+      if (!chat) {
+        throw new UserInputError('Chat Id is invalid.')
+      }
+      chat.users.forEach(async userId => {
+        // Remove the chatId form the users
+        await User.findByIdAndUpdate(userId, { $pull: { chats: chatId } }, { new: true })
+      })
+      // Delete all the messages with same chatId
+      await Message.deleteMany({ chat: chatId })
+
+      // Pubsish Chat Subscription to all the user
+      chat.users.forEach(userId => {
+        pubsub.publish(`chat-${userId}`, {
+          chat: { mutation: 'DELETE_CHAT', data: chat }
+        })
+      })
+
+      return chat
     }
   },
   Chat: {
