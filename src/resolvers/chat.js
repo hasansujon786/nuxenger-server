@@ -56,6 +56,9 @@ export default {
       return chat
     },
     async deleteAGroupChat(parent, { chatId }, { pubsub }, info) {
+      // TODO: need to update delete chat rule.
+      // Because if one user delete his chat the other user also lost there chat too.
+
       // Delete the given chatGroup
       const chat = await Chat.findByIdAndDelete(chatId)
       if (!chat) {

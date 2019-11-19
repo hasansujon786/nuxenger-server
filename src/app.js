@@ -46,6 +46,7 @@ const IN_PROD = NODE_ENV === 'production'
       port: REDIST_PORT,
       password: REDIST_PASSWORD
     })
+    client.on('error', err => console.error(err))
 
     // Session Configs
     app.use(
