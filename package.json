@@ -4,7 +4,7 @@
   "description": "my cool nuxanger server",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node -r .",
+    "start": "node -r .",
     "dev": "nodemon -r esm"
   },
   "author": "hasansujon786@gmail.com",
