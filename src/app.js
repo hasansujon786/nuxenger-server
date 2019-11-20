@@ -31,6 +31,10 @@ const IN_PROD = NODE_ENV === 'production'
     await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
     const app = express()
 
+    app.get('/',(req, res, next) => {
+      res.send({'message': 'App up & is running.'})
+    })
+
     // Headers & CORS Config
     app.disable('x-powered-by')
     var corsOptions = {
