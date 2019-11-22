@@ -14,6 +14,7 @@ import schemaDirectives from './directives'
 
 import {
   PORT,
+  CLIENT_URL,
   MONGO_URI,
   NODE_ENV,
   SESS_NAME,
@@ -38,7 +39,7 @@ const IN_PROD = NODE_ENV === 'production'
     // Headers & CORS Config
     app.disable('x-powered-by')
     var corsOptions = {
-      origin: 'http://localhost:3000',
+      origin: CLIENT_URL,
       credentials: true // <-- REQUIRED backend setting
     }
     app.use(cors(corsOptions))

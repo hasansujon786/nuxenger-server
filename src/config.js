@@ -1,5 +1,6 @@
 export const {
   PORT = 4000,
+  CLIENT_URL = 'http://localhost:3000',
   NODE_ENV = 'development',
   MONGO_URI = 'mongodb://localhost/nuxenger',
 
