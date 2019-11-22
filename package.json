@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "my cool nuxanger server",
   "main": "index.js",
+  "module": "index.js",
   "scripts": {
-    "start": "node -r .",
+    "start": "node -r esm index.js",
     "dev": "nodemon -r esm"
   },
   "author": "hasansujon786@gmail.com",
@@ -22,5 +23,14 @@
     "joi": "^14.3.0",
     "mongoose": "^5.7.3",
     "redis": "^2.8.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasansujon786/nuxenger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hasansujon786/nuxenger/issues"
+  },
+  "homepage": "https://github.com/hasansujon786/nuxenger#readme"
 }

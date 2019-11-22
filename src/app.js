@@ -32,7 +32,7 @@ const IN_PROD = NODE_ENV === 'production'
     const app = express()
 
     app.get('/', (req, res, next) => {
-      res.send({ message: 'App up & is running.' })
+      res.send('<h1>🚀 Nuxenger Server is up & running...</h1>')
     })
 
     // Headers & CORS Config
@@ -91,7 +91,7 @@ const IN_PROD = NODE_ENV === 'production'
     const httpServer = createServer(app)
     server.installSubscriptionHandlers(httpServer)
 
-    httpServer.listen({ port: PORT }, () => {
+    httpServer.listen(PORT, () => {
       console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
       // console.log(`Server ready at ws://localhost:${APP_PORT}${server.subscriptionsPath}`)
     })
