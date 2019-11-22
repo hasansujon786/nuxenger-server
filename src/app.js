@@ -13,6 +13,7 @@ import resolvers from './resolvers'
 import schemaDirectives from './directives'
 
 import {
+  PORT,
   MONGO_URI,
   NODE_ENV,
   SESS_NAME,
@@ -31,7 +32,7 @@ const IN_PROD = NODE_ENV === 'production'
     const app = express()
 
     app.get('/', (req, res, next) => {
-      res.send({ message: 'App is up & running.' })
+      res.send('<h1>🚀 Nuxenger Server is up & running...</h1>')
     })
 
     // Headers & CORS Config
@@ -89,7 +90,6 @@ const IN_PROD = NODE_ENV === 'production'
     // WS subsription confog
     const httpServer = createServer(app)
     server.installSubscriptionHandlers(httpServer)
-    const PORT = process.env.PORT || 4000
 
     httpServer.listen(PORT, () => {
       console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
