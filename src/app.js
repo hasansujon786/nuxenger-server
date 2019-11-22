@@ -13,7 +13,7 @@ import resolvers from './resolvers'
 import schemaDirectives from './directives'
 
 import {
-  APP_PORT,
+  PORT,
   MONGO_URI,
   NODE_ENV,
   SESS_NAME,
@@ -31,8 +31,8 @@ const IN_PROD = NODE_ENV === 'production'
     await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
     const app = express()
 
-    app.get('/',(req, res, next) => {
-      res.send({'message': 'App up & is running.'})
+    app.get('/', (req, res, next) => {
+      res.send({ message: 'App up & is running.' })
     })
 
     // Headers & CORS Config
@@ -91,8 +91,8 @@ const IN_PROD = NODE_ENV === 'production'
     const httpServer = createServer(app)
     server.installSubscriptionHandlers(httpServer)
 
-    httpServer.listen({ port: APP_PORT }, () => {
-      console.log(`Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)
+    httpServer.listen({ port: PORT }, () => {
+      console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`)
       // console.log(`Server ready at ws://localhost:${APP_PORT}${server.subscriptionsPath}`)
     })
   } catch (error) {

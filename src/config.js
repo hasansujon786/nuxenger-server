@@ -1,5 +1,5 @@
 export const {
-  APP_PORT = 4000,
+  PORT = 4000,
   NODE_ENV = 'development',
   MONGO_URI = 'mongodb://localhost/nuxenger',
 
