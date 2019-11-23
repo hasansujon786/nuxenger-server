@@ -1,5 +1,5 @@
 import { ApolloServer, PubSub } from 'apollo-server-express'
-import { createServer } from 'http'
+import { createServer } from 'https'
 import connectRedis from 'connect-redis'
 import session from 'express-session'
 import mongoose from 'mongoose'
@@ -76,7 +76,7 @@ const IN_PROD = NODE_ENV === 'production'
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      playground: !IN_PROD,
+      playground: true,
       schemaDirectives,
       context: ({ req, res }) => ({ req, res, pubsub })
     })
