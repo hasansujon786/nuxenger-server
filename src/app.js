@@ -1,5 +1,5 @@
 import { ApolloServer, PubSub } from 'apollo-server-express'
-import { createServer } from 'https'
+import { createServer } from 'http'
 import connectRedis from 'connect-redis'
 import session from 'express-session'
 import mongoose from 'mongoose'
