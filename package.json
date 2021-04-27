@@ -21,7 +21,7 @@
     "express-session": "^1.16.2",
     "graphql": "^14.5.8",
     "mongoose": "^5.7.12",
-    "redis": "^2.8.0"
+    "redis": "^3.1.1"
   },
   "devDependencies": {},
   "repository": {
